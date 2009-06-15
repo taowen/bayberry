@@ -15,23 +15,32 @@ package org.bayberry.core;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Module;
+import org.bayberry.core.api.ConfiguredWith;
+import org.bayberry.core.api.OverridenWith;
 import org.junit.Assert;
 import org.junit.Test;
-import org.bayberry.core.ModuleFactory;
-import org.bayberry.core.api.ConfiguredWith;
 
 /**
  * @author taowen
  */
-@ConfiguredWith({my_configured_with.Module1.class, my_configured_with.Module2.class})
-public class my_configured_with {
+public class overriden_with {
 
     @Test
-    public void should_be_used_to_create_modules() {
-        Injector injector = Guice.createInjector(ModuleFactory.fromTestCase(this));
-        Assert.assertEquals("Hello", injector.getInstance(String.class));
-        Assert.assertEquals("World", injector.getInstance(Object.class));
+    public void should_override_my_and_super_configured_with_module() {
+        Injector injector = Guice.createInjector(ModuleFactory.fromTestCase(new SomeTestCase()));
+        Assert.assertEquals("OverridenHello", injector.getInstance(String.class));
+        Assert.assertEquals("OverridenWorld", injector.getInstance(Object.class));
+    }
+
+
+    @ConfiguredWith(Module1.class)
+    public static class AbstractTestCase {
+
+    }
+
+    @ConfiguredWith(Module2.class)
+    @OverridenWith(Module3.class)
+    public static class SomeTestCase extends AbstractTestCase {
     }
 
     public static class Module1 extends AbstractModule {
@@ -45,6 +54,14 @@ public class my_configured_with {
 
         protected void configure() {
             bind(Object.class).toInstance("World");
+        }
+    }
+
+    public static class Module3 extends AbstractModule {
+
+        protected void configure() {
+            bind(String.class).toInstance("OverridenHello");
+            bind(Object.class).toInstance("OverridenWorld");
         }
     }
 }

@@ -27,8 +27,7 @@ public class super_configured_with {
     @Test
     public void should_also_be_used_to_create_module() {
         SomeTestCase testCase = new SomeTestCase();
-        com.google.inject.Module module = ModuleFactory.fromTestCase(testCase);
-        Injector injector = Guice.createInjector(module);
+        Injector injector = Guice.createInjector(ModuleFactory.fromTestCase(testCase));
         Assert.assertEquals("Hello", injector.getInstance(String.class));
     }
 

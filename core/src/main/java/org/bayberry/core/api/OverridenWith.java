@@ -10,23 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core;
+package org.bayberry.core.api;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-import org.bayberry.core.spi.Extension;
+import com.google.inject.Module;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author taowen
  */
-public class ExtensionFactory {
-
-    public static Extension fromTestCase(Object testCase) {
-        Injector injector = Guice.createInjector(ModuleFactory.fromTestCase(testCase));
-        if (injector.getBindings().containsKey(Key.get(Extension.class))) {
-            return injector.getInstance(Extension.class);
-        }
-        return injector.getInstance(InjectDependencyExtension.class);
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface OverridenWith {
+    public abstract Class<? extends Module>[] value();
 }

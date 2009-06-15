@@ -13,9 +13,13 @@
 package org.bayberry.core;
 
 import com.google.inject.Module;
+import com.google.inject.util.Modules;
 import org.bayberry.core.api.ConfiguredWith;
+import org.bayberry.core.api.OverridenWith;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,29 +27,42 @@ import java.util.Set;
  */
 public class ModuleFactory {
 
-    public static Module fromTestCase(Object testCase) {
-        SetOfModules modules = new SetOfModules();
-        collectModules(modules, testCase.getClass());
+    public static Set<Module> fromTestCase(Object testCase) {
+        List<Class<?>> classes = new ArrayList<Class<?>>();
+        collectClasses(classes, testCase.getClass());
+        Set<Module> modules = new HashSet<Module>();
+        for (Class<?> clazz : classes) {
+            modules.addAll(fromConfiguredWith(clazz));
+            OverridenWith overridenWith = clazz.getAnnotation(OverridenWith.class);
+            if (overridenWith != null) {
+                Module overriden = Modules.override(modules).with(newInstances(overridenWith.value()));
+                modules.clear();
+                modules.add(overriden);
+            }
+        }
         return modules;
     }
 
-    private static void collectModules(SetOfModules modules, Class<?> clazz) {
+    private static void collectClasses(List<Class<?>> classes, Class<?> clazz) {
         if (clazz == null) {
             return;
         }
-        for (Module module : fromConfiguredWith(clazz)) {
-            modules.add(module);
-        }
-        collectModules(modules, clazz.getSuperclass());
+        classes.add(0, clazz);
+        collectClasses(classes, clazz.getSuperclass());
     }
 
     private static Set<Module> fromConfiguredWith(Class<?> clazz) {
-        Set<Module> modules = new HashSet<Module>();
         ConfiguredWith configuredWith = clazz.getAnnotation(ConfiguredWith.class);
         if (configuredWith == null) {
             return new HashSet<Module>();
         }
-        for (Class<? extends Module> moduleClass : configuredWith.value()) {
+        Class<? extends Module>[] moduleClasses = configuredWith.value();
+        return newInstances(moduleClasses);
+    }
+
+    private static Set<Module> newInstances(Class<? extends Module>[] moduleClasses) {
+        Set<Module> modules = new HashSet<Module>();
+        for (Class<? extends Module> moduleClass : moduleClasses) {
             modules.add(newInstance(moduleClass));
         }
         return modules;
