@@ -12,8 +12,11 @@
 */
 package org.bayberry.core;
 
+import com.google.inject.Binder;
 import com.google.inject.Module;
-import com.google.inject.util.Modules;
+import com.google.inject.internal.Function;
+import com.google.inject.internal.MapMaker;
+import com.google.inject.internal.Nullable;
 import org.bayberry.core.api.ConfiguredWith;
 import org.bayberry.core.api.OverridenWith;
 
@@ -21,26 +24,41 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author taowen
  */
 public class ModuleFactory {
 
-    public static Set<Module> fromTestCase(Object testCase) {
+    private final static ConcurrentMap<Class<? extends Module>, Module> moduleInstances = new MapMaker()
+            .makeComputingMap(new Function<Class<? extends Module>, Module>() {
+                public Module apply(@Nullable Class<? extends Module> moduleClass) {
+                    try {
+                        return moduleClass.newInstance();
+                    } catch (Throwable e) {
+                        throw new IllegalArgumentException("can not instantiate module " + moduleClass, e);
+                    }
+                }
+            });
+
+    private final static Module DUMMY_MODULE = new Module() {
+        public void configure(Binder binder) {
+        }
+    };
+
+    public static Module fromTestCase(Object testCase) {
         List<Class<?>> classes = new ArrayList<Class<?>>();
         collectClasses(classes, testCase.getClass());
-        Set<Module> modules = new HashSet<Module>();
+        Module module = DUMMY_MODULE;
         for (Class<?> clazz : classes) {
-            modules.addAll(fromConfiguredWith(clazz));
+            module = new SetOfModules(module, fromConfiguredWith(clazz));
             OverridenWith overridenWith = clazz.getAnnotation(OverridenWith.class);
             if (overridenWith != null) {
-                Module overriden = Modules.override(modules).with(newInstances(overridenWith.value()));
-                modules.clear();
-                modules.add(overriden);
+                module = new OverridenModule(module, newInstances(overridenWith.value()));
             }
         }
-        return modules;
+        return module;
     }
 
     private static void collectClasses(List<Class<?>> classes, Class<?> clazz) {
@@ -69,10 +87,6 @@ public class ModuleFactory {
     }
 
     private static Module newInstance(Class<? extends Module> moduleClass) {
-        try {
-            return moduleClass.newInstance();
-        } catch (Throwable e) {
-            throw new IllegalArgumentException("can not instantiate module " + moduleClass, e);
-        }
+        return moduleInstances.get(moduleClass);
     }
 }

@@ -15,15 +15,29 @@ package org.bayberry.core;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.google.inject.Module;
+import com.google.inject.internal.Function;
+import com.google.inject.internal.MapMaker;
+import com.google.inject.internal.Nullable;
 import org.bayberry.core.spi.Extension;
+
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author taowen
  */
 public class ExtensionFactory {
 
+    private final static ConcurrentMap<Module, Injector> injectors = new MapMaker()
+            .softValues()
+            .makeComputingMap(new Function<Module, Injector>() {
+                public Injector apply(@Nullable Module module) {
+                    return Guice.createInjector(module);
+                }
+            });
+
     public static Extension fromTestCase(Object testCase) {
-        Injector injector = Guice.createInjector(ModuleFactory.fromTestCase(testCase));
+        Injector injector = injectors.get(ModuleFactory.fromTestCase(testCase));
         if (injector.getBindings().containsKey(Key.get(Extension.class))) {
             return injector.getInstance(Extension.class);
         }

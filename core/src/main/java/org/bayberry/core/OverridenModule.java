@@ -14,26 +14,25 @@ package org.bayberry.core;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.google.inject.util.Modules;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author taowen
  */
-public class SetOfModules implements Module {
+public class OverridenModule implements Module {
 
-    private final Set<Module> modules = new HashSet<Module>();
+    private final int hashCode;
+    private final Module module;
 
-    public SetOfModules(Module module, Set<Module> modules) {
-        this.modules.add(module);
-        this.modules.addAll(modules);
+    public OverridenModule(Module beOverriden, Set<Module> overridenBy) {
+        hashCode = beOverriden.hashCode() * 31 + overridenBy.hashCode();
+        module = Modules.override(beOverriden).with(overridenBy);
     }
 
     public void configure(Binder binder) {
-        for (Module module : modules) {
-            module.configure(binder);
-        }
+        module.configure(binder);
     }
 
     @Override
@@ -41,15 +40,15 @@ public class SetOfModules implements Module {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SetOfModules that = (SetOfModules) o;
+        OverridenModule that = (OverridenModule) o;
 
-        if (!modules.equals(that.modules)) return false;
+        if (hashCode != that.hashCode) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return modules.hashCode();
+        return hashCode;
     }
 }
