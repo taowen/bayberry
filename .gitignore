@@ -1,0 +1,8 @@
+bayberry.iml
+bayberry.ipr
+bayberry.iws
+target
+core/bayberry-core.iml
+core/target
+junit4/bayberry-junit4.iml
+junit4/target
