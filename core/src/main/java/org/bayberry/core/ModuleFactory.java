@@ -14,12 +14,14 @@ package org.bayberry.core;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.google.inject.Provides;
 import com.google.inject.internal.Function;
 import com.google.inject.internal.MapMaker;
 import com.google.inject.internal.Nullable;
 import org.bayberry.core.api.ConfiguredWith;
 import org.bayberry.core.api.OverridenWith;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +39,7 @@ public class ModuleFactory {
                     try {
                         return moduleClass.newInstance();
                     } catch (Throwable e) {
-                        throw new IllegalArgumentException("can not instantiate module " + moduleClass, e);
+                        throw new RuntimeException("can not instantiate module " + moduleClass, e);
                     }
                 }
             });
@@ -52,13 +54,37 @@ public class ModuleFactory {
         collectClasses(classes, testCase.getClass());
         Module module = DUMMY_MODULE;
         for (Class<?> clazz : classes) {
-            module = new SetOfModules(module, fromConfiguredWith(clazz));
+            Set<Module> modules = fromConfiguredWith(clazz);
+            modules.addAll(fromProvides(testCase, clazz));
+            module = new SetOfModules(module, modules);
             OverridenWith overridenWith = clazz.getAnnotation(OverridenWith.class);
             if (overridenWith != null) {
                 module = new OverridenModule(module, newInstances(overridenWith.value()));
             }
         }
         return module;
+    }
+
+    private static Set<Module> fromProvides(Object testCase, Class<?> clazz) {
+        Set<Module> modules = new HashSet<Module>();
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (!method.isAnnotationPresent(Provides.class)) {
+                continue;
+            }
+            if (!method.getReturnType().equals(Module.class)) {
+                continue;
+            }
+            if (method.getParameterTypes().length != 0) {
+                continue;
+            }
+            method.setAccessible(true);
+            try {
+                modules.add((Module) method.invoke(testCase));
+            } catch (Exception e) {
+                throw new RuntimeException("failed to get module from method " + method, e);
+            }
+        }
+        return modules;
     }
 
     private static void collectClasses(List<Class<?>> classes, Class<?> clazz) {

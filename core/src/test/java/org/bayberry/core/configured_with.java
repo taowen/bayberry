@@ -22,27 +22,27 @@ import org.junit.Test;
 /**
  * @author taowen
  */
-public class super_configured_with {
+@ConfiguredWith({configured_with.Module1.class, configured_with.Module2.class})
+public class configured_with {
 
     @Test
-    public void should_also_be_used_to_create_module() {
-        SomeTestCase testCase = new SomeTestCase();
-        Injector injector = Guice.createInjector(ModuleFactory.fromTestCase(testCase));
+    public void should_be_used_to_create_modules() {
+        Injector injector = Guice.createInjector(ModuleFactory.fromTestCase(this));
         Assert.assertEquals("Hello", injector.getInstance(String.class));
+        Assert.assertEquals("World", injector.getInstance(Object.class));
     }
 
-    @ConfiguredWith(Module.class)
-    public static class AbstractTestCase {
-
-    }
-
-    public static class SomeTestCase extends AbstractTestCase {
-    }
-
-    public static class Module extends AbstractModule {
+    public static class Module1 extends AbstractModule {
 
         protected void configure() {
             bind(String.class).toInstance("Hello");
+        }
+    }
+
+    public static class Module2 extends AbstractModule {
+
+        protected void configure() {
+            bind(Object.class).toInstance("World");
         }
     }
 }
