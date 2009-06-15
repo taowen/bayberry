@@ -8,11 +8,11 @@
     <name>Bayberry project</name>
     <packaging>pom</packaging>
     <modules>
-        <module>core</module>    
-        <module>junit4</module>    
+        <module>core</module>
+        <module>junit4</module>
     </modules>
     <properties>
-        <buildVersion>0.1</buildVersion>
+        <buildVersion>0.2</buildVersion>
         <buildLabel>dev${buildNumber}</buildLabel>
         <bayberryVersion>${buildVersion}-${buildLabel}</bayberryVersion>
     </properties>
