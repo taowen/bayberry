@@ -10,10 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.extension.fixture;
+package org.bayberry.fixture;
+
+import com.google.inject.AbstractModule;
+import org.bayberry.fixture.internal.UsingFixtureMatcher;
+import org.bayberry.fixture.internal.UsingFixtureTypeListener;
 
 /**
  * @author taowen
  */
-public class FixtureExtension {
+public class FixtureModule extends AbstractModule {
+
+    protected void configure() {
+        bindListener(new UsingFixtureMatcher(), new UsingFixtureTypeListener());
+    }
 }
