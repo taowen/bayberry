@@ -15,19 +15,17 @@ package org.bayberry.core;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Provides;
-import com.google.inject.Guice;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @author taowen
  */
-public class provides {
+public class provides extends _core_module_feature {
 
     @Test
     public void should_be_used_to_create_module() {
-        Module module = ModuleFactory.fromTestCase(this);
-        Assert.assertEquals("Hello", Guice.createInjector(module).getInstance(String.class));
+        Assert.assertEquals("Hello", injectorFactory.fromTestCase(this).getInstance(String.class));
     }
 
     @Provides

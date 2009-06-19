@@ -12,35 +12,24 @@
 */
 package org.bayberry.core;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import com.google.inject.Module;
-import com.google.inject.internal.Function;
-import com.google.inject.internal.MapMaker;
-import com.google.inject.internal.Nullable;
+import org.bayberry.core.internal.InjectorFactory;
+import org.bayberry.core.internal.ModuleFactory;
 import org.bayberry.core.spi.Extension;
-
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author taowen
  */
 public class ExtensionFactory {
 
-    private final static ConcurrentMap<Module, Injector> injectors = new MapMaker()
-            .softValues()
-            .makeComputingMap(new Function<Module, Injector>() {
-                public Injector apply(@Nullable Module module) {
-                    return Guice.createInjector(module);
-                }
-            });
+    private final static InjectorFactory injectorFactory = new InjectorFactory(new ModuleFactory());
 
-    public static Extension fromTestCase(Object testCase) {
-        Injector injector = injectors.get(ModuleFactory.fromTestCase(testCase));
+    public static Extension fromTestCase(Object testCase, Key<? extends Extension> defaultExtensionKey) {
+        Injector injector = injectorFactory.fromTestCase(testCase);
         if (injector.getBindings().containsKey(Key.get(Extension.class))) {
             return injector.getInstance(Extension.class);
         }
-        return injector.getInstance(InjectDependencyExtension.class);
+        return injector.getInstance(defaultExtensionKey);
     }
 }

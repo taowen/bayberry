@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core;
+package org.bayberry.extension.injection;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -21,12 +21,12 @@ import java.lang.reflect.Method;
 /**
  * @author taowen
  */
-public class InjectDependencyExtension implements Extension {
+public class InjectionExtension implements Extension {
 
     private final Injector injector;
 
     @Inject
-    public InjectDependencyExtension(Injector injector) {
+    public InjectionExtension(Injector injector) {
         this.injector = injector;
     }
 

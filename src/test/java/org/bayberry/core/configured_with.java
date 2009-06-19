@@ -13,7 +13,6 @@
 package org.bayberry.core;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.bayberry.core.api.ConfiguredWith;
 import org.junit.Assert;
@@ -23,11 +22,11 @@ import org.junit.Test;
  * @author taowen
  */
 @ConfiguredWith({configured_with.Module1.class, configured_with.Module2.class})
-public class configured_with {
+public class configured_with extends _core_module_feature {
 
     @Test
     public void should_be_used_to_create_modules() {
-        Injector injector = Guice.createInjector(ModuleFactory.fromTestCase(this));
+        Injector injector = injectorFactory.fromTestCase(this);
         Assert.assertEquals("Hello", injector.getInstance(String.class));
         Assert.assertEquals("World", injector.getInstance(Object.class));
     }

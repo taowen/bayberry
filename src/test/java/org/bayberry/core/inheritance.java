@@ -16,18 +16,19 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.bayberry.core.api.ConfiguredWith;
+import org.bayberry.core.internal.ModuleFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * @author taowen
  */
-public class inheritance {
+public class inheritance extends _core_module_feature {
 
     @Test
     public void should_also_be_used_to_create_module() {
         SomeTestCase testCase = new SomeTestCase();
-        Injector injector = Guice.createInjector(ModuleFactory.fromTestCase(testCase));
+        Injector injector = injectorFactory.fromTestCase(testCase);
         Assert.assertEquals("Hello", injector.getInstance(String.class));
     }
 

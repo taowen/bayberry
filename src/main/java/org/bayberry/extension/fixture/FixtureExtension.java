@@ -10,20 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.api;
-
-import com.google.inject.Module;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package org.bayberry.extension.fixture;
 
 /**
  * @author taowen
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface OverridenWith {
-    public abstract Class<? extends Module>[] value();
+public class FixtureExtension {
 }

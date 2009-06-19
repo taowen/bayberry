@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core;
+package org.bayberry.core.internal;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
@@ -20,6 +20,8 @@ import com.google.inject.internal.MapMaker;
 import com.google.inject.internal.Nullable;
 import org.bayberry.core.api.ConfiguredWith;
 import org.bayberry.core.api.OverridenWith;
+import org.bayberry.core.internal.SetOfModules;
+import org.bayberry.core.internal.OverridenModule;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ModuleFactory {
 
-    private final static ConcurrentMap<Class<? extends Module>, Module> moduleInstances = new MapMaker()
+    private final ConcurrentMap<Class<? extends Module>, Module> moduleInstances = new MapMaker()
             .makeComputingMap(new Function<Class<? extends Module>, Module>() {
                 public Module apply(@Nullable Class<? extends Module> moduleClass) {
                     try {
@@ -49,7 +51,7 @@ public class ModuleFactory {
         }
     };
 
-    public static Module fromTestCase(Object testCase) {
+    public Module fromTestCase(Object testCase) {
         List<Class<?>> classes = new ArrayList<Class<?>>();
         collectClasses(classes, testCase.getClass());
         Module module = DUMMY_MODULE;
@@ -65,7 +67,7 @@ public class ModuleFactory {
         return module;
     }
 
-    private static Set<Module> fromProvides(Object testCase, Class<?> clazz) {
+    private Set<Module> fromProvides(Object testCase, Class<?> clazz) {
         Set<Module> modules = new HashSet<Module>();
         for (Method method : clazz.getDeclaredMethods()) {
             if (!method.isAnnotationPresent(Provides.class)) {
@@ -87,7 +89,7 @@ public class ModuleFactory {
         return modules;
     }
 
-    private static void collectClasses(List<Class<?>> classes, Class<?> clazz) {
+    private void collectClasses(List<Class<?>> classes, Class<?> clazz) {
         if (clazz == null) {
             return;
         }
@@ -95,7 +97,7 @@ public class ModuleFactory {
         collectClasses(classes, clazz.getSuperclass());
     }
 
-    private static Set<Module> fromConfiguredWith(Class<?> clazz) {
+    private Set<Module> fromConfiguredWith(Class<?> clazz) {
         ConfiguredWith configuredWith = clazz.getAnnotation(ConfiguredWith.class);
         if (configuredWith == null) {
             return new HashSet<Module>();
@@ -104,7 +106,7 @@ public class ModuleFactory {
         return newInstances(moduleClasses);
     }
 
-    private static Set<Module> newInstances(Class<? extends Module>[] moduleClasses) {
+    private Set<Module> newInstances(Class<? extends Module>[] moduleClasses) {
         Set<Module> modules = new HashSet<Module>();
         for (Class<? extends Module> moduleClass : moduleClasses) {
             modules.add(newInstance(moduleClass));
@@ -112,7 +114,7 @@ public class ModuleFactory {
         return modules;
     }
 
-    private static Module newInstance(Class<? extends Module> moduleClass) {
+    private Module newInstance(Class<? extends Module> moduleClass) {
         return moduleInstances.get(moduleClass);
     }
 }

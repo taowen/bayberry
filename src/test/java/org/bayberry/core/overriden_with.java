@@ -23,11 +23,11 @@ import org.junit.Test;
 /**
  * @author taowen
  */
-public class overriden_with {
+public class overriden_with extends _core_module_feature {
 
     @Test
     public void should_override_my_and_super_configured_with_module() {
-        Injector injector = Guice.createInjector(ModuleFactory.fromTestCase(new SomeTestCase()));
+        Injector injector = Guice.createInjector(moduleFactory.fromTestCase(new SomeTestCase()));
         Assert.assertEquals("OverridenHello", injector.getInstance(String.class));
         Assert.assertEquals("OverridenWorld", injector.getInstance(Object.class));
     }

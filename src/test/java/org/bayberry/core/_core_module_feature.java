@@ -12,30 +12,21 @@
 */
 package org.bayberry.core;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.Guice;
-import org.junit.Test;
-import org.junit.Assert;
+import org.bayberry.core.internal.InjectorFactory;
+import org.bayberry.core.internal.ModuleFactory;
+import org.junit.Before;
 
 /**
  * @author taowen
  */
-public class provides {
+public abstract class _core_module_feature {
 
-    @Test
-    public void should_be_used_to_create_module() {
-        Module module = ModuleFactory.fromTestCase(this);
-        Assert.assertEquals("Hello", Guice.createInjector(module).getInstance(String.class));
-    }
+    protected ModuleFactory moduleFactory;
+    protected InjectorFactory injectorFactory;
 
-    @Provides
-    Module myModule() {
-        return new AbstractModule() {
-            protected void configure() {
-                bind(String.class).toInstance("Hello");
-            }
-        };
+    @Before
+    public void create_injector_factory() {
+        moduleFactory = new ModuleFactory();
+        injectorFactory = new InjectorFactory(moduleFactory);
     }
 }

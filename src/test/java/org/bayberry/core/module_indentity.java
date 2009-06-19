@@ -15,6 +15,7 @@ package org.bayberry.core;
 import com.google.inject.AbstractModule;
 import org.bayberry.core.api.ConfiguredWith;
 import org.bayberry.core.api.OverridenWith;
+import org.bayberry.core.internal.ModuleFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -22,13 +23,13 @@ import org.junit.Test;
  * @author taowen
  */
 
-public class module_indentity {
+public class module_indentity extends _core_module_feature {
 
     @Test
     public void should_be_always_same_for_same_config() {
         Assert.assertEquals(
-                ModuleFactory.fromTestCase(new A2()),
-                ModuleFactory.fromTestCase(new B2()));
+                moduleFactory.fromTestCase(new A2()),
+                moduleFactory.fromTestCase(new B2()));
     }
 
     @ConfiguredWith(Module1.class)

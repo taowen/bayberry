@@ -14,12 +14,15 @@ package org.bayberry.junit4;
 
 import org.bayberry.core.spi.Extension;
 import org.bayberry.core.ExtensionFactory;
+import org.bayberry.extension.injection.InjectionExtension;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
 import java.lang.reflect.Method;
+
+import com.google.inject.Key;
 
 /**
  * @author taowen
@@ -32,7 +35,7 @@ public class Bayberry extends BlockJUnit4ClassRunner {
 
     @Override
     protected Statement withAfters(FrameworkMethod frameworkMethod, final Object testCase, Statement statement) {
-        final Extension extension = ExtensionFactory.fromTestCase(testCase);
+        final Extension extension = ExtensionFactory.fromTestCase(testCase, Key.get(InjectionExtension.class));
         final Method testMethod = frameworkMethod.getMethod();
         final Statement next = super.withAfters(frameworkMethod, testCase, statement);
         return new Statement() {
