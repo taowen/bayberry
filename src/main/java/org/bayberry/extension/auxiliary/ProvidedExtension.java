@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core;
+package org.bayberry.extension.auxiliary;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
+import com.google.inject.Provider;
 import org.bayberry.core.spi.Extension;
 
 import java.lang.reflect.Method;
@@ -21,19 +20,19 @@ import java.lang.reflect.Method;
 /**
  * @author taowen
  */
-public class InjectDependencyExtension implements Extension {
+public class ProvidedExtension implements Extension {
 
-    private final Injector injector;
+    private final Provider<Extension> extensionProvider;
 
-    @Inject
-    public InjectDependencyExtension(Injector injector) {
-        this.injector = injector;
+    public ProvidedExtension(Provider<Extension> extensionProvider) {
+        this.extensionProvider = extensionProvider;
     }
 
     public void before(Object testCase, Method testMethod) throws Throwable {
-        injector.injectMembers(testCase);
+        extensionProvider.get().before(testCase, testMethod);
     }
 
     public void after(Object testCase, Method testMethod) throws Throwable {
+        extensionProvider.get().after(testCase, testMethod);
     }
 }
