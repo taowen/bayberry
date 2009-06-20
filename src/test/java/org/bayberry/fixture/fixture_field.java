@@ -12,21 +12,15 @@
 */
 package org.bayberry.fixture;
 
-import org.bayberry.core.api.ConfiguredWith;
 import org.bayberry.fixture.api.Fixture;
 import org.bayberry.fixture.api.FixtureProvider;
-import org.bayberry.fixture.api.UsingFixture;
-import org.bayberry.junit4.Bayberry;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * @author taowen
  */
-@RunWith(Bayberry.class)
-@ConfiguredWith(FixtureModule.class)
-public class fixture_field implements UsingFixture {
+public class fixture_field extends _fixture_module_feature {
 
     @Fixture(Hello.class)
     String hello;
