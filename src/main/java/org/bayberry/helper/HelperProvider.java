@@ -15,12 +15,14 @@ package org.bayberry.helper;
 import com.google.inject.Provider;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 
 import java.lang.reflect.Proxy;
 
 /**
  * @author taowen
  */
+@Singleton
 public class HelperProvider<T> implements Provider<T> {
 
     private final Class<T> helperClass;
@@ -28,6 +30,7 @@ public class HelperProvider<T> implements Provider<T> {
 
     @Inject
     Injector injector;
+    private T proxy;
 
     public HelperProvider(Class<T> helperClass) {
         this.helperClass = helperClass;
@@ -40,6 +43,9 @@ public class HelperProvider<T> implements Provider<T> {
     }
 
     public T get() {
-        return (T) Proxy.newProxyInstance(classLoader, new Class[]{helperClass}, new HelperInvocationHandler(injector));
+        if (proxy == null) {
+            proxy = (T) Proxy.newProxyInstance(classLoader, new Class[]{helperClass}, new HelperInvocationHandler(injector));
+        }
+        return proxy;
     }
 }
