@@ -30,19 +30,19 @@ public class fixture_field extends _fixture_module_feature {
         Assert.assertEquals("World", hello);
     }
 
-    public static class Hello implements FixtureProvider {
+    public static class Hello extends FixtureProvider {
 
         @Fixture(World.class)
         String world;
 
-        public Object get() {
+        protected Object getFixture() {
             return world;
         }
     }
 
-    public static class World implements FixtureProvider {
+    public static class World extends FixtureProvider {
 
-        public Object get() {
+        protected Object getFixture() {
             return "World";
         }
     }

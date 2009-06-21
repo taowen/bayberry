@@ -19,7 +19,7 @@ import java.util.Set;
 /**
  * @author taowen
  */
-public class FixtureMembersInjector<I> implements MembersInjector<I> {
+public class FixtureMembersInjector implements MembersInjector {
 
     private final Set<FixtureField> fields;
 

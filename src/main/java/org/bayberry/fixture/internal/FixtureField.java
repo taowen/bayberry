@@ -39,7 +39,7 @@ public class FixtureField {
         }
     }
 
-    public static <I> FixtureField create(Field field, TypeEncounter<I> typeEncounter) {
+    public static FixtureField create(Field field, TypeEncounter typeEncounter) {
         Fixture fixtureAnnotation = field.getAnnotation(Fixture.class);
         if (fixtureAnnotation == null) {
             return null;

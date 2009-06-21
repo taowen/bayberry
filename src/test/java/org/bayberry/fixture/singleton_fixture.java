@@ -10,23 +10,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.fixture.api;
+package org.bayberry.fixture;
 
-import com.google.inject.Provider;
+import org.bayberry.fixture.api.FixtureProvider;
+import org.bayberry.fixture.api.Fixture;
+import org.junit.Test;
+import org.junit.Assert;
+import com.google.inject.Singleton;
 
 /**
  * @author taowen
  */
-public abstract class FixtureProvider implements Provider<Object>, UsingFixture {
+public class singleton_fixture extends _fixture_module_feature {
 
-    private Object fixture;
+    @Fixture(SomeFixtureProvider.class)
+    Object obj1;
+    @Fixture(SomeFixtureProvider.class)
+    Object obj2;
 
-    public final Object get() {
-        if (fixture == null) {
-            fixture = getFixture();
-        }
-        return fixture;
+    @Test
+    public void should_share_same_instance() {
+        Assert.assertSame(obj1, obj2);
     }
 
-    protected abstract Object getFixture();
+    @Singleton
+    public static class SomeFixtureProvider extends FixtureProvider {
+
+        protected Object getFixture() {
+            return new Object();
+        }
+    }
 }
