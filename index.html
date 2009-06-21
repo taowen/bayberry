@@ -1,1 +1,125 @@
-Hello
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Bayberry - Complement Test Frameworks</title>
+	<script type="text/javascript" src="scripts/shCore.js"></script>
+	<script type="text/javascript" src="scripts/shBrushJava.js"></script>
+	<link type="text/css" rel="stylesheet" href="styles/shCore.css"/>
+	<link type="text/css" rel="stylesheet" href="styles/shThemeDefault.css"/>
+	<script type="text/javascript">
+		SyntaxHighlighter.config.clipboardSwf = 'scripts/clipboard.swf';
+		SyntaxHighlighter.all();
+	</script>
+</head>
+<body>
+	<h1>Bayberry</h1>
+	<h2>Dependency Injection</h2>
+	<h3>Basic Usage</h3>
+	<pre class="brush: java">
+	@RunWith(Bayberry.class)
+	@ConfiguredWith({SomeModule.class, AnotherModule.class})
+	public static class SomeTest {
+		@Inject
+		SomeDependency someDependency;
+	}</pre>
+	<h3>Module Overridden</h3>
+	<pre class="brush: java">
+	@RunWith(Bayberry.class)
+	@ConfiguredWith(SomeProdModule.class)
+	@OverriddenWith(SomeTestModule.class)
+	public static class SomeTest {
+	}</pre>
+	<h3>Provides</h3>
+	<pre class="brush: java">
+	@RunWith(Bayberry.class)
+	public static class SomeTest {
+		
+		@Provides
+		Module someModule() {
+			return new SomeModule();
+		}
+	}</pre>
+	<h2>Data Injection</h2>
+	<h3>Fixture for Test</h3>
+	<pre class="brush: java">
+	public static class SomeTest extends UsingBayberry {
+	
+		@Fixture(SomeFixtureProvider.class)
+		String someFixture;
+	
+		public static class SomeFixtureProvider extends FixtureProvider {
+		
+			public Object getFixture() {
+				return "Hello";
+			}
+		}
+	}
+	</pre>
+	<h3>Fixture for Fixture Provider</h3>
+	<pre class="brush: java">
+	public class SomeFixtureProvider extends FixtureProvider {
+	
+		@Fixture(AnotherFixtureProvider.class)
+		String anothoerFixture;
+		
+		public Object getFixture() {
+			return anotherFixture + " World";
+		}
+	}
+	
+	public class AnotherFixtureProvider extends FixtureProvider {
+	
+		public Object getFixture() {
+			return "Hello";
+		}
+	}</pre>
+	<h3>Singleton Fixture</h3>
+	<pre class="brush: java">
+	@Singleton
+	public class SomeFixtureProvider extends FixtureProvider {
+	
+		public Object getFixture() {
+			return new Object();
+		}
+	}</pre>
+	<h3>Per Test Fixture</h3>
+	<pre class="brush: java">
+	@PerTest
+	public class SomeFixtureProvider extends FixtureProvider {
+	
+		public Object getFixture() {
+			return new Object();
+		}
+	}</pre>
+	<h2>Helper</h2>
+	<h3>Fest Assert Helper</h3>
+	<pre class="brush: java">
+	public class SomeTest extends UsingBayberry {
+		
+		@Inject
+		FestAssertHelper i;
+		
+		public void test() {
+			i.assertThat("hello").isEqualTo("hello");
+		}
+	}</pre>
+	<h3>Merged Helpers</h3>
+	<pre class="brush: java">
+	@ProvidedBy(FestAssertHelper.Provider.class)
+	public interface FestAssertHelper extends
+			BigDecimalAssertHelper,
+			BooleanAssertHelper,
+			BooleanArrayAssertHelper,
+			...
+			ThrowableAssertHelper {
+
+		public static class Provider extends HelperProvider&lt;FestAssertHelper&gt; {
+
+			public Provider() {
+				super(FestAssertHelper.class);
+			}
+		}
+	}</pre>
+</body>
+</html>
