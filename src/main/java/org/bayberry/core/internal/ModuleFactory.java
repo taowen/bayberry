@@ -19,7 +19,7 @@ import com.google.inject.internal.Function;
 import com.google.inject.internal.MapMaker;
 import com.google.inject.internal.Nullable;
 import org.bayberry.core.api.ConfiguredWith;
-import org.bayberry.core.api.OverridenWith;
+import org.bayberry.core.api.OverriddenWith;
 import org.bayberry.core.internal.SetOfModules;
 import org.bayberry.core.internal.OverridenModule;
 
@@ -59,9 +59,9 @@ public class ModuleFactory {
             Set<Module> modules = fromConfiguredWith(clazz);
             modules.addAll(fromProvides(testCase, clazz));
             module = new SetOfModules(module, modules);
-            OverridenWith overridenWith = clazz.getAnnotation(OverridenWith.class);
-            if (overridenWith != null) {
-                module = new OverridenModule(module, newInstances(overridenWith.value()));
+            OverriddenWith overriddenWith = clazz.getAnnotation(OverriddenWith.class);
+            if (overriddenWith != null) {
+                module = new OverridenModule(module, newInstances(overriddenWith.value()));
             }
         }
         return module;

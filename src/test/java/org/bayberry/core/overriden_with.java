@@ -16,7 +16,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.bayberry.core.api.ConfiguredWith;
-import org.bayberry.core.api.OverridenWith;
+import org.bayberry.core.api.OverriddenWith;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -39,7 +39,7 @@ public class overriden_with extends _core_module_feature {
     }
 
     @ConfiguredWith(Module2.class)
-    @OverridenWith(Module3.class)
+    @OverriddenWith(Module3.class)
     public static class SomeTestCase extends AbstractTestCase {
     }
 
