@@ -10,12 +10,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.fixture;
+package org.bayberry.extension.scope;
 
-import org.bayberry.junit4.UsingBayberry;
+import com.google.inject.Key;
+import com.google.inject.Provider;
+import com.google.inject.ScopeAnnotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author taowen
  */
-public abstract class _fixture_module_feature extends UsingBayberry {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@ScopeAnnotation
+public @interface PerTest {
 }

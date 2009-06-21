@@ -10,12 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.fixture;
+package org.bayberry.junit4;
 
-import org.bayberry.junit4.UsingBayberry;
+import org.bayberry.core.api.ConfiguredWith;
+import org.bayberry.fixture.api.UsingFixture;
+import org.junit.runner.RunWith;
 
 /**
  * @author taowen
  */
-public abstract class _fixture_module_feature extends UsingBayberry {
+@RunWith(Bayberry.class)
+@ConfiguredWith(org.bayberry.conf.DefaultModule.class)
+public class UsingBayberry implements UsingFixture {
 }

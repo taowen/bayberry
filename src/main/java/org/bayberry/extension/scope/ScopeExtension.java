@@ -10,12 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.fixture;
+package org.bayberry.extension.scope;
 
-import org.bayberry.junit4.UsingBayberry;
+import org.bayberry.core.spi.Extension;
+
+import java.lang.reflect.Method;
 
 /**
  * @author taowen
  */
-public abstract class _fixture_module_feature extends UsingBayberry {
+public class ScopeExtension implements Extension {
+
+    public void before(Object testCase, Method testMethod) throws Throwable {
+        PerTestScope.INSTANCE.clear();
+    }
+
+    public void after(Object testCase, Method testMethod) throws Throwable {
+        PerTestScope.INSTANCE.clear();
+    }
 }

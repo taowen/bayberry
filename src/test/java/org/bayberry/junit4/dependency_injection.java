@@ -12,20 +12,18 @@
 */
 package org.bayberry.junit4;
 
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.Assert;
-import org.junit.runner.RunWith;
-import org.bayberry.core.api.ConfiguredWith;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import org.bayberry.core.api.ConfiguredWith;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author taowen
  */
-@RunWith(Bayberry.class)
 @ConfiguredWith(dependency_injection.Module.class)
-public class dependency_injection {
+public class dependency_injection extends UsingBayberry {
 
     @Inject
     String injectedString;

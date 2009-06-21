@@ -35,7 +35,7 @@ public class Bayberry extends BlockJUnit4ClassRunner {
 
     @Override
     protected Statement withAfters(FrameworkMethod frameworkMethod, final Object testCase, Statement statement) {
-        final Extension extension = ExtensionFactory.fromTestCase(testCase, Key.get(InjectionExtension.class));
+        final Extension extension = ExtensionFactory.fromTestCase(testCase);
         final Method testMethod = frameworkMethod.getMethod();
         final Statement next = super.withAfters(frameworkMethod, testCase, statement);
         return new Statement() {

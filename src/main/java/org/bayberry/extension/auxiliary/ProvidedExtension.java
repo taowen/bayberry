@@ -22,9 +22,9 @@ import java.lang.reflect.Method;
  */
 public class ProvidedExtension implements Extension {
 
-    private final Provider<Extension> extensionProvider;
+    private final Provider<? extends Extension> extensionProvider;
 
-    public ProvidedExtension(Provider<Extension> extensionProvider) {
+    public ProvidedExtension(Provider<? extends Extension> extensionProvider) {
         this.extensionProvider = extensionProvider;
     }
 
