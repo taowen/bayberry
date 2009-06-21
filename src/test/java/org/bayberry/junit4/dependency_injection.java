@@ -15,7 +15,7 @@ package org.bayberry.junit4;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import org.bayberry.core.api.ConfiguredWith;
-import org.junit.Assert;
+import org.bayberry.fest.FestAssertHelper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +28,9 @@ public class dependency_injection extends UsingBayberry {
     @Inject
     String injectedString;
 
+    @Inject
+    FestAssertHelper i;
+
     private String injectedBeforeBefore;
 
     @Before
@@ -37,7 +40,7 @@ public class dependency_injection extends UsingBayberry {
 
     @Test
     public void should_be_done_before_before() {
-        Assert.assertEquals("Hello", injectedBeforeBefore);
+        i.assertThat(injectedBeforeBefore).isEqualTo("Hello");
     }
 
     public static class Module extends AbstractModule {

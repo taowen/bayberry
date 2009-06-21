@@ -12,6 +12,10 @@
             <id>guice-maven</id>
             <url>http://guice-maven.googlecode.com/svn/trunk/</url>
         </repository>
+        <repository>
+            <id>fest</id>
+            <url>http://fest.googlecode.com/svn/trunk/fest/m2/repository</url>
+        </repository>
     </repositories>
     <properties>
         <buildVersion>0.2</buildVersion>
@@ -36,6 +40,12 @@
             <artifactId>junit</artifactId>
             <version>4.6</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>fest</groupId>
+            <artifactId>fest-assert</artifactId>
+            <version>1.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
