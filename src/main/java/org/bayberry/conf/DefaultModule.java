@@ -13,14 +13,18 @@
 package org.bayberry.conf;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
 import org.bayberry.core.spi.Extension;
-import org.bayberry.extension.auxiliary.NestedExtensions;
-import org.bayberry.extension.auxiliary.ProvidedExtension;
+import org.bayberry.extension.auxiliary.ExtensionsBinder;
+import org.bayberry.extension.auxiliary.ProvidedExtensions;
 import org.bayberry.extension.injection.InjectionExtension;
-import org.bayberry.extension.scope.ScopeExtension;
 import org.bayberry.extension.scope.PerTest;
 import org.bayberry.extension.scope.PerTestScope;
+import org.bayberry.extension.scope.ScopeExtension;
 import org.bayberry.fixture.FixtureModule;
+
+import java.util.Set;
 
 /**
  * @author taowen
@@ -28,14 +32,12 @@ import org.bayberry.fixture.FixtureModule;
 public class DefaultModule extends AbstractModule {
 
     protected void configure() {
-        bind(Extension.class).toInstance(NestedExtensions.of(
-                getExtension(InjectionExtension.class),
-                getExtension(ScopeExtension.class)));
+        bind(Extension.class).toInstance(new ProvidedExtensions(getProvider(Key.get(new TypeLiteral<Set<Extension>>() {
+        }))));
+        new ExtensionsBinder(binder())
+                .add(InjectionExtension.class)
+                .insert(InjectionExtension.class, ScopeExtension.class);
         bindScope(PerTest.class, PerTestScope.INSTANCE);
         install(new FixtureModule());
-    }
-
-    private ProvidedExtension getExtension(Class<? extends Extension> extensionClass) {
-        return new ProvidedExtension(getProvider(extensionClass));
     }
 }

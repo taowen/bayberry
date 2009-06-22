@@ -10,16 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.junit4;
+package org.bayberry.extension.auxiliary;
 
-import org.bayberry.core.api.ConfiguredWith;
-import org.bayberry.fixture.api.UsingFixture;
-import org.junit.runner.RunWith;
+import org.bayberry.core.spi.Extension;
+
+import java.lang.reflect.Method;
 
 /**
  * @author taowen
  */
-@RunWith(Bayberry.class)
-@ConfiguredWith(org.bayberry.conf.DefaultModule.class)
-public abstract class UsingBayberry implements UsingFixture {
+public class DummyExtension implements Extension {
+
+    public void before(Object testCase, Method testMethod) throws Throwable {
+    }
+
+    public void after(Object testCase, Method testMethod) throws Throwable {
+    }
 }

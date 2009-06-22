@@ -12,49 +12,36 @@
 */
 package org.bayberry.extension.auxiliary;
 
+import com.google.inject.Provider;
 import org.bayberry.core.spi.Extension;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.Set;
 
 /**
  * @author taowen
  */
-public class NestedExtensions implements Extension {
+public class ProvidedExtensions implements Extension {
 
-    private final Extension first;
-    private final Extension last;
+    private final Provider<Set<Extension>> extensionsProvider;
+    private Extension extension;
 
-    public NestedExtensions(Extension first, Extension last) {
-        this.first = first;
-        this.last = last;
+    public ProvidedExtensions(Provider<Set<Extension>> extensionsProvider) {
+        this.extensionsProvider = extensionsProvider;
     }
 
     public void before(Object testCase, Method testMethod) throws Throwable {
-        try {
-            first.before(testCase, testMethod);
-        } finally {
-            last.before(testCase, testMethod);
-        }
+        getExtension().before(testCase, testMethod);
     }
 
     public void after(Object testCase, Method testMethod) throws Throwable {
-        try {
-            last.after(testCase, testMethod);
-        } finally {
-            first.after(testCase, testMethod);
-        }
+        getExtension().after(testCase, testMethod);
     }
 
-    public static Extension of(Extension... extensions) {
-        return of(Arrays.asList(extensions));
-    }
-
-    public static Extension of(Iterable<Extension> extensions) {
-        Extension nested = new DummyExtension();
-        for (Extension extension : extensions) {
-            nested = new NestedExtensions(nested, extension);
+    private Extension getExtension() {
+        if (extension == null) {
+            extension = NestedExtensions.of(extensionsProvider.get());
         }
-        return nested;
+        return extension;
     }
 }
