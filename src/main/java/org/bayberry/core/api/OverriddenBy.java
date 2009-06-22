@@ -24,6 +24,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface OverriddenWith {
+public @interface OverriddenBy {
     public abstract Class<? extends Module>[] value();
 }

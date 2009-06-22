@@ -14,7 +14,7 @@ package org.bayberry.core;
 
 import com.google.inject.AbstractModule;
 import org.bayberry.core.api.ConfiguredWith;
-import org.bayberry.core.api.OverriddenWith;
+import org.bayberry.core.api.OverriddenBy;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,7 +37,7 @@ public class module_indentity extends _core_module_feature {
     }
 
     @ConfiguredWith(Module2.class)
-    @OverriddenWith(Module3.class)
+    @OverriddenBy(Module3.class)
     public static class A2 extends A1 {
 
     }
@@ -48,7 +48,7 @@ public class module_indentity extends _core_module_feature {
     }
 
     @ConfiguredWith(Module1.class)
-    @OverriddenWith(Module3.class)
+    @OverriddenBy(Module3.class)
     public static class B2 extends B1 {
 
     }
