@@ -49,7 +49,7 @@ public class ExtensionsBinder {
 
     public ExtensionsBinder append(Class<? extends Extension> afterExtensionClass,
                                    Class<? extends Extension> extensionClass) {
-        Multibinder.newSetBinder(binder, Extension.class, new After.Impl(afterExtensionClass))
+        Multibinder.newSetBinder(binder, Extension.class, new AfterExtension.Impl(afterExtensionClass))
                 .addBinding()
                 .toInstance(wrapExtension(extensionClass));
         return this;
@@ -58,7 +58,7 @@ public class ExtensionsBinder {
     private Extension wrapExtension(Class<? extends Extension> extensionClass) {
         Before.Impl before = new Before.Impl(extensionClass);
         Multibinder.newSetBinder(binder, Extension.class, before);
-        After.Impl after = new After.Impl(extensionClass);
+        AfterExtension.Impl after = new AfterExtension.Impl(extensionClass);
         Multibinder.newSetBinder(binder, Extension.class, after);
         return NestedExtensions.of(
                 getExtensions(before),
