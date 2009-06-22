@@ -14,7 +14,16 @@
 </head>
 <body>
 	<h1>Bayberry</h1>
+	<p>Goal of this project is to complement test frameworks for projects using Guice. It has three major features: </p>
+	<ol>
+	<li>Dependency Injection</li>
+	<li>Data Injection</li>
+	<li>Test Helper</li>
+	</ol>
+	<p>Download: <a href="http://taowen.github.com/bayberry/repository/org/bayberry/bayberry/0.3-final/bayberry-0.3-final.jar">bayberry-0.3-final.jar</a></p>
+	<p></p>Maven Repository: <a href="http://taowen.github.com/bayberry/repository">http://taowen.github.com/bayberry/repository</a></p>
 	<h2>Dependency Injection</h2>
+	<p>Bridge the gap between Guice and test frameworks. Currently, only JUnit4 is supported, but the core implementation is separated from test framework specific API. So it would be easy to add support for other test frameworks, such as JUnit 3 or TestNG.</p>
 	<h3>Basic Usage</h3>
 	<pre class="brush: java">
 	@RunWith(Bayberry.class)
@@ -23,24 +32,46 @@
 		@Inject
 		SomeDependency someDependency;
 	}</pre>
-	<h3>Module Overridden</h3>
-	<pre class="brush: java">
-	@RunWith(Bayberry.class)
-	@ConfiguredWith(SomeProdModule.class)
-	@OverriddenWith(SomeTestModule.class)
-	public static class SomeTest {
-	}</pre>
-	<h3>Provides</h3>
+	<p>This is the most basic way to use Bayberry. @ConfiguredWith take a list of module classes to create the injector for test. Module class must have a default constructor, if module creation requires special handling, you can use @Provides to provide module yourself which will be talked about later.</p>
+	<p>Bayberry.class is extending from BlockJUnit4ClassRunner, this should be fine for most JUnit 4 tests. In case you are using your own test runner, you can always invoke the SPI directly. We will talk about the SPI later.</p>
+	</pre>
+	<h3>Customized Module Creation</h3>
 	<pre class="brush: java">
 	@RunWith(Bayberry.class)
 	public static class SomeTest {
 		
 		@Provides
 		Module someModule() {
-			return new SomeModule();
+			return new SomeModule("some parameter");
 		}
 	}</pre>
+	<p>When the module does not have a default constructor, you might want to create the module yourself. @Provides gives you a way to do that. Another motivation to create module yourself, is to control the hashcode of the module. Modules created by @ConfiguredWith will only has one instance. And Bayberry has a built-in Guice Injector (Which is a container for everything, so might be expensive to create) cache using the module as the key. So, you will always get the same injector by default. Using @Provides, you have a option to change this behavior by control the creation of the module instances.</p>
+	<h3>Module Overriding</h3>
+	<pre class="brush: java">
+	@RunWith(Bayberry.class)
+	@ConfiguredWith(SomeProdModule.class)
+	@OverriddenBy(SomeTestModule.class)
+	public class SomeTest {
+	}</pre>
+	<p>In Guice 2.0, a feature of module overridden is available. Although in general, we should split modules into smaller modules to support flexible module composition to support different environment, instead of trying to override some bindings for a large monolic module, anyway, it is always good have a option. @OverriddenBy is used to specify a list of modules overriding the modules configured either using @configuredWith or @Provides.</p>
+	<h3>Inheritance</h3>
+	<pre class="brush: java">
+	@RunWith(Bayberry.class)
+	@ConfiguredWith(SomeModule.class)
+	public class AbstractTest {
+	}
+	@ConfiguredWith(AnotherModule.class)
+	@OverriddenBy(OverridingSomeModule.class)
+	public class SomeTest extends AnotherTest {
+	
+		@Provides
+		Module yetAnotherModule() {
+			return new YetAnotherModule();
+		}
+	}</pre>
+	<p>It is very common to extract out common test settings into parent class. Bayberry has full support for that. In the above example, the order of adding and overriding will be: SomeModule -> AnotherModule -> YetAnotherModule -> OverridingSomeModule.</p>
 	<h2>Data Injection</h2>
+	<p>It is a already a common sense to use dependency injection to promote a better design. We avoide using "new" operator whenever we could. But in our test cases, we still use "new" operator to create test data. When the test data creation is not as trival as three lines, not only the test is not readable, maintainable, but also the test data creation need to be duplicated between test cases. In rails, you can use YAML to create fixture sharing data between tests. Bayberry also supports fixture. Instead of using YAML, we think a fixture is just a object, so all we need is a "Provider" to provide the fixture. How to create the fixture and when to create it, is all upon the user's choice.</p>
 	<h3>Fixture for Test</h3>
 	<pre class="brush: java">
 	public static class SomeTest extends UsingBayberry {
@@ -56,6 +87,7 @@
 		}
 	}
 	</pre>
+	<p>This is most basic usage of fixture. You need some test data in the test, just add field and mark it with @Fixture specifying the "Provider" of it. Although we are extending from FixtureProvider in this case, but you can also just use simple Guice Provider instead. In real project, you can choose to persist the fixture using Hibernate, or you can actually loading the test data from some xml file.</p>
 	<h3>Fixture for Fixture Provider</h3>
 	<pre class="brush: java">
 	public class SomeFixtureProvider extends FixtureProvider {
@@ -74,16 +106,8 @@
 			return "Hello";
 		}
 	}</pre>
-	<h3>Singleton Fixture</h3>
-	<pre class="brush: java">
-	@Singleton
-	public class SomeFixtureProvider extends FixtureProvider {
-	
-		public Object getFixture() {
-			return new Object();
-		}
-	}</pre>
-	<h3>Per Test Fixture</h3>
+	<p>Fixture provider itself can also require data injection. This is very powerful in real project. For example, Hibernate will not automically save tranisent object unless the relationship is marked as cascade. Using data injection for fixture provider, we can persist fixtures one by one, and compose them together. Instead of building a big object graph in one time and persist it in one time, which will not work unless all your domain model relationships is marked as cascade.</p>
+	<h3>Scope</h3>
 	<pre class="brush: java">
 	@PerTest
 	public class SomeFixtureProvider extends FixtureProvider {
@@ -92,7 +116,15 @@
 			return new Object();
 		}
 	}</pre>
+	<p>Fixture can be scoped just like other dependencies. Built-in scope annotation @Singleton can be used, if the fixture is readonly. Or we can leave the fixture provider unscoped, which will create new instance everytime. Also, Bayberry provides a @PerTest scope, which will share same instance within a test method execution.</p>
 	<h2>Helper</h2>
+	<p>Again, dependency injection is already common sense, but people still use static methods as test helpers. There are two drawbacks to use static test helper:</p>
+	<ol>
+	<li>Not extensible</li>
+	<p>For example, static import assertThat can be convinent if all defined in same class. If there are two class defined two test helpers, both of them called assertThat, we have to rename one of them to static import, or we need to fully qualify it when invoking the helper.</p>
+	<li>Can not reference context</li>
+	<p>For example, test helper can not get database connection. It would be great, if the test helper is also created by Guice, so it has full reference to all kinds of contexts.</p>
+	</ol>
 	<h3>Fest Assert Helper</h3>
 	<pre class="brush: java">
 	public class SomeTest extends UsingBayberry {
@@ -104,7 +136,8 @@
 			i.assertThat("hello").isEqualTo("hello");
 		}
 	}</pre>
-	<h3>Merged Helpers</h3>
+	<p>Fest-assert integration is built-in. Naming the test helper as "i" is just a syntax sugar.</p>
+	<h3>Extending Helpers</h3>
 	<pre class="brush: java">
 	@ProvidedBy(FestAssertHelper.Provider.class)
 	public interface FestAssertHelper extends
@@ -120,6 +153,55 @@
 				super(FestAssertHelper.class);
 			}
 		}
+	}
+	@ImplementedBy(BigDecimalAssertHelper.Impl.class)
+	public interface BigDecimalAssertHelper {
+
+		BigDecimalAssert assertThat(BigDecimal actual);
+
+		@Singleton
+		public static class Impl implements BigDecimalAssertHelper {
+
+			public BigDecimalAssert assertThat(BigDecimal actual) {
+				return Assertions.assertThat(actual);
+			}
+		}
 	}</pre>
+	<p>Helper api is very extensible. FestAssertHelper itself extends from a list of smaller helpers. If you want to plug-in your own test helper, just need to make some new helper interfaces and reuse existing helper by extending from it. The "HelperProvider" is used to merge smaller test helpers as a big one, by creating a proxy and delegate the method invocation to individual helper implementation. Internally, Guice is used to create the helper instance.</p>
+	<h2>Extension</h2>
+	<p>Bayberry is very extensible. Bayberry core is just responsible for creating Guice injector. It provides SPI to plug-in extension to listen for a test execution. The actual dependency injection and @PerTest scope is implemented as extension to the core. The extension interface is defined as: </p>
+	<pre class="brush: java">
+	public interface Extension {
+
+		void before(Object testCase, Method testMethod) throws Throwable;
+
+		void after(Object testCase, Method testMethod) throws Throwable;
+	}</pre>
+	<p>As we can see, the interface is quite simple. But the tricky part is how to bind a extension in Guice. We can bind one extension very easily in Guice. Bind multiple extensions is harder. Bind multiple extensions in multiple modules is even harder. Bind multiple extensions in multiple modules and with order, is really really hard. To support this kind of tricky binding, a built-in ExtensionBinder is provided to allow user bind many extensions in different modules.</p>
+	<pre class="brush: java">
+	bind(Extension.class).toInstance(new ProvidedExtensions(getProvider(Key.get(new TypeLiteral&lt;Set&lt;Extension&gt;&gt;() {
+    }))));
+    new ExtensionsBinder(binder())
+		.add(InjectionExtension.class)
+        .insert(InjectionExtension.class, ScopeExtension.class);</pre>
+	<p>This is how bayberry default configuration bind the extensions. Using ExtensionBinder we can add a extension (when the order does not matter), we can insert a extension before a specific extension, or we can append a extension after a specific extension. It is quite easy to write a new extension, providing things like start and end a database transaction. Another alternative is @Before and @After in JUnit4, but you can not get test method this way, and it requires a base class for test cases sharing some set up and tear down.</p>
+	<p>Also, there is a ExtensionFactory available.</p>
+	<pre class="brush: java">
+	protected Statement withAfters(FrameworkMethod frameworkMethod, final Object testCase, Statement statement) {
+        final Extension extension = ExtensionFactory.fromTestCase(testCase);
+        final Method testMethod = frameworkMethod.getMethod();
+        final Statement next = super.withAfters(frameworkMethod, testCase, statement);
+        return new Statement() {
+            public void evaluate() throws Throwable {
+                try {
+                    extension.before(testCase, testMethod);
+                    next.evaluate();
+                } finally {
+                    extension.after(testCase, testMethod);
+                }
+            }
+        };
+    }</pre>
+	<p>This is how Bayberry.class being implemented. Using ExtensionFactory we can hook up Guice with other JUnit 4 test runners / test frameworks quite easily.</p>
 </body>
 </html>
