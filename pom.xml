@@ -9,6 +9,10 @@
     <packaging>jar</packaging>
     <repositories>
         <repository>
+            <id>bayberry private repository for guice 2.0</id>
+            <url>http://taowen.github.com/bayberry/repository</url>
+        </repository>
+        <repository>
             <id>fest</id>
             <url>http://fest.googlecode.com/svn/trunk/fest/m2/repository</url>
         </repository>
