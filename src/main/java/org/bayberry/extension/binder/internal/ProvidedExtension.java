@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.extension.auxiliary;
+package org.bayberry.extension.binder.internal;
 
+import com.google.inject.Provider;
 import org.bayberry.core.spi.Extension;
 
 import java.lang.reflect.Method;
@@ -19,11 +20,19 @@ import java.lang.reflect.Method;
 /**
  * @author taowen
  */
-public class DummyExtension implements Extension {
+public class ProvidedExtension implements Extension {
+
+    private final Provider<? extends Extension> extensionProvider;
+
+    public ProvidedExtension(Provider<? extends Extension> extensionProvider) {
+        this.extensionProvider = extensionProvider;
+    }
 
     public void before(Object testCase, Method testMethod) throws Throwable {
+        extensionProvider.get().before(testCase, testMethod);
     }
 
     public void after(Object testCase, Method testMethod) throws Throwable {
+        extensionProvider.get().after(testCase, testMethod);
     }
 }

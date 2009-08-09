@@ -13,6 +13,7 @@
 package org.bayberry.extension.scope;
 
 import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.scope.internal.PerTestScope;
 
 import java.lang.reflect.Method;
 

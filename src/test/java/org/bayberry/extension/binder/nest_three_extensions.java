@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.extension.auxiliary;
+package org.bayberry.extension.binder;
 
 import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.binder.internal.NestedExtensions;
 import org.junit.Assert;
 import org.junit.Test;
 

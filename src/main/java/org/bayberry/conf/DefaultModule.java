@@ -16,11 +16,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import org.bayberry.core.spi.Extension;
-import org.bayberry.extension.auxiliary.ExtensionsBinder;
-import org.bayberry.extension.auxiliary.ProvidedExtensions;
+import org.bayberry.extension.binder.ExtensionsBinder;
+import org.bayberry.extension.binder.internal.ProvidedExtensions;
 import org.bayberry.extension.injection.InjectionExtension;
 import org.bayberry.extension.scope.PerTest;
-import org.bayberry.extension.scope.PerTestScope;
+import org.bayberry.extension.scope.internal.PerTestScope;
 import org.bayberry.extension.scope.ScopeExtension;
 import org.bayberry.fixture.FixtureModule;
 

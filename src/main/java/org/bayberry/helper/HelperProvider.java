@@ -19,6 +19,8 @@ import com.google.inject.Singleton;
 
 import java.lang.reflect.Proxy;
 
+import org.bayberry.helper.internal.HelperInvocationHandler;
+
 /**
  * @author taowen
  */

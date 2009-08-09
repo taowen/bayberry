@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author taowen
  */
-public class InjectorFactory {
+public class _InjectorFactory {
 
     private final ConcurrentMap<Module, Injector> injectors = new MapMaker()
             .softValues()
@@ -37,7 +37,7 @@ public class InjectorFactory {
 
     private final _ModuleFactory moduleFactory;
 
-    public InjectorFactory(_ModuleFactory moduleFactory) {
+    public _InjectorFactory(_ModuleFactory moduleFactory) {
         this.moduleFactory = moduleFactory;
     }
 

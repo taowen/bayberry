@@ -10,26 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.extension.auxiliary;
-
-import org.bayberry.core.spi.Extension;
-
-import java.lang.annotation.Annotation;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+package org.bayberry.extension.binder.internal;
 
 import com.google.inject.BindingAnnotation;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Annotation;
+
+import org.bayberry.core.spi.Extension;
+
 /**
- * @author taowen
+     * @author taowen
  */
 @Retention(RetentionPolicy.RUNTIME)
 @BindingAnnotation
-public @interface After {
+public @interface Before {
 
     public abstract Class<? extends Extension> value();
 
-    static class Impl implements After {
+    static class Impl implements Before {
 
         private final Class<? extends Extension> value;
 
@@ -42,7 +42,7 @@ public @interface After {
         }
 
         public Class<? extends Annotation> annotationType() {
-            return After.class;
+            return Before.class;
         }
 
         @Override
@@ -62,4 +62,5 @@ public @interface After {
             return value.hashCode();
         }
     }
+
 }

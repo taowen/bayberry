@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.helper;
+package org.bayberry.helper.internal;
 
 import com.google.inject.Injector;
 
