@@ -9,8 +9,8 @@
     <packaging>jar</packaging>
     <repositories>
         <repository>
-            <id>bayberry private repository for guice 2.0</id>
-            <url>http://taowen.github.com/bayberry/repository</url>
+            <id>guice</id>
+            <url>http://google-maven-repository.googlecode.com/svn/repository/</url>
         </repository>
         <repository>
             <id>fest</id>
@@ -36,8 +36,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.inject.extension</groupId>
-            <artifactId>multibindings</artifactId>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-multibindings</artifactId>
             <version>2.0</version>
             <scope>compile</scope>
         </dependency>

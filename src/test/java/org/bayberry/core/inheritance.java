@@ -13,10 +13,8 @@
 package org.bayberry.core;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.bayberry.core.api.ConfiguredWith;
-import org.bayberry.core.internal.ModuleFactory;
 import org.junit.Assert;
 import org.junit.Test;
 

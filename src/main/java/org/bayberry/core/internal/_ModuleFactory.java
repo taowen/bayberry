@@ -20,7 +20,7 @@ import com.google.inject.internal.MapMaker;
 import com.google.inject.internal.Nullable;
 import org.bayberry.core.api.ConfiguredWith;
 import org.bayberry.core.api.OverriddenBy;
-import org.bayberry.core.internal.SetOfModules;
+import org.bayberry.core.internal.CombinedModules;
 import org.bayberry.core.internal.OverridenModule;
 
 import java.lang.reflect.Method;
@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author taowen
  */
-public class ModuleFactory {
+public class _ModuleFactory {
 
     private final ConcurrentMap<Class<? extends Module>, Module> moduleInstances = new MapMaker()
             .makeComputingMap(new Function<Class<? extends Module>, Module>() {
@@ -58,7 +58,7 @@ public class ModuleFactory {
         for (Class<?> clazz : classes) {
             Set<Module> modules = fromConfiguredWith(clazz);
             modules.addAll(fromProvides(testCase, clazz));
-            module = new SetOfModules(module, modules);
+            module = new CombinedModules(module, modules);
             OverriddenBy overriddenBy = clazz.getAnnotation(OverriddenBy.class);
             if (overriddenBy != null) {
                 module = new OverridenModule(module, newInstances(overriddenBy.value()));

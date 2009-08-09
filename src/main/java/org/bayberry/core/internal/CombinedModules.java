@@ -21,11 +21,11 @@ import java.util.Set;
 /**
  * @author taowen
  */
-public class SetOfModules implements Module {
+public class CombinedModules implements Module {
 
     private final Set<Module> modules = new HashSet<Module>();
 
-    public SetOfModules(Module module, Set<Module> modules) {
+    public CombinedModules(Module module, Set<Module> modules) {
         this.modules.add(module);
         this.modules.addAll(modules);
     }
@@ -41,7 +41,7 @@ public class SetOfModules implements Module {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SetOfModules that = (SetOfModules) o;
+        CombinedModules that = (CombinedModules) o;
 
         if (!modules.equals(that.modules)) return false;
 

@@ -13,7 +13,7 @@
 package org.bayberry.core;
 
 import org.bayberry.core.internal.InjectorFactory;
-import org.bayberry.core.internal.ModuleFactory;
+import org.bayberry.core.internal._ModuleFactory;
 import org.junit.Before;
 
 /**
@@ -21,12 +21,12 @@ import org.junit.Before;
  */
 public abstract class _core_module_feature {
 
-    protected ModuleFactory moduleFactory;
+    protected _ModuleFactory moduleFactory;
     protected InjectorFactory injectorFactory;
 
     @Before
     public void create_injector_factory() {
-        moduleFactory = new ModuleFactory();
+        moduleFactory = new _ModuleFactory();
         injectorFactory = new InjectorFactory(moduleFactory);
     }
 }

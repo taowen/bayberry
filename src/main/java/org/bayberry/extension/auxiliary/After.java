@@ -21,15 +21,15 @@ import java.lang.annotation.RetentionPolicy;
 import com.google.inject.BindingAnnotation;
 
 /**
-     * @author taowen
+ * @author taowen
  */
 @Retention(RetentionPolicy.RUNTIME)
 @BindingAnnotation
-public @interface AfterExtension {
+public @interface After {
 
     public abstract Class<? extends Extension> value();
 
-    static class Impl implements AfterExtension {
+    static class Impl implements After {
 
         private final Class<? extends Extension> value;
 
@@ -42,7 +42,7 @@ public @interface AfterExtension {
         }
 
         public Class<? extends Annotation> annotationType() {
-            return AfterExtension.class;
+            return After.class;
         }
 
         @Override

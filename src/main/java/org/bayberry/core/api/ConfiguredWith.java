@@ -21,6 +21,8 @@ import java.lang.annotation.Target;
 
 /**
  * @author taowen
+ * @see org.bayberry.core.api.OverriddenBy
+ * specify modules used to create injector
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

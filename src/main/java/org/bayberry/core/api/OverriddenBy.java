@@ -21,9 +21,11 @@ import java.lang.annotation.Target;
 
 /**
  * @author taowen
+ * @see org.bayberry.core.api.ConfiguredWith
+ * specify modules used to override previously selected modules which were specified by ConfiguredWith
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface OverriddenBy {
-    public abstract Class<? extends Module>[] value();
+    Class<? extends Module>[] value();
 }

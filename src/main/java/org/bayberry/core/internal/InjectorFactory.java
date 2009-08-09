@@ -18,7 +18,7 @@ import com.google.inject.Module;
 import com.google.inject.internal.Function;
 import com.google.inject.internal.MapMaker;
 import com.google.inject.internal.Nullable;
-import org.bayberry.core.internal.ModuleFactory;
+import org.bayberry.core.internal._ModuleFactory;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -35,9 +35,9 @@ public class InjectorFactory {
                 }
             });
 
-    private final ModuleFactory moduleFactory;
+    private final _ModuleFactory moduleFactory;
 
-    public InjectorFactory(ModuleFactory moduleFactory) {
+    public InjectorFactory(_ModuleFactory moduleFactory) {
         this.moduleFactory = moduleFactory;
     }
 
