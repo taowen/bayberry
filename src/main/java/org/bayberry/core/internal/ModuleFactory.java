@@ -14,10 +14,7 @@ package org.bayberry.core.internal;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import org.bayberry.core.internal.module.FromConfiguredWith;
-import org.bayberry.core.internal.module.FromOverridenBy;
-import org.bayberry.core.internal.module.FromProvides;
-import org.bayberry.core.internal.module.ModuleInstantiator;
+import org.bayberry.core.internal.module.ModuleAppender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,24 +24,23 @@ import java.util.List;
  */
 public class ModuleFactory {
 
-    private final ModuleInstantiator instantiator = new ModuleInstantiator();
-    private final FromConfiguredWith fromConfiguredWith = new FromConfiguredWith(instantiator);
-    private final FromProvides fromProvides = new FromProvides();
-    private final FromOverridenBy fromOverridenBy = new FromOverridenBy(instantiator);
-
     private final static Module DUMMY_MODULE = new Module() {
         public void configure(Binder binder) {
         }
     };
+
+    private final ModuleAppender moduleAppender;
+
+    public ModuleFactory(ModuleAppender moduleAppender) {
+        this.moduleAppender = moduleAppender;
+    }
 
     public Module fromTestCase(Object testCase) {
         List<Class<?>> classes = new ArrayList<Class<?>>();
         collectClasses(classes, testCase.getClass());
         Module module = DUMMY_MODULE;
         for (Class<?> clazz : classes) {
-            module = fromConfiguredWith.append(module, testCase, clazz);
-            module = fromProvides.append(module, testCase, clazz);
-            module = fromOverridenBy.append(module, testCase, clazz);
+            module = moduleAppender.append(module, testCase, clazz);
         }
         return module;
     }
@@ -56,5 +52,4 @@ public class ModuleFactory {
         classes.add(0, clazz);
         collectClasses(classes, clazz.getSuperclass());
     }
-
 }

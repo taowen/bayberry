@@ -10,23 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core;
+package org.bayberry.core.internal.module;
 
-import org.bayberry.core.internal.InjectorFactory;
-import org.bayberry.core.internal.ModuleFactory;
-import org.junit.Before;
+import com.google.inject.Module;
 
 /**
  * @author taowen
  */
-public abstract class _core_module_feature {
+public class ModuleAppenders implements ModuleAppender {
 
-    protected ModuleFactory moduleFactory;
-    protected InjectorFactory injectorFactory;
+    private final ModuleAppender[] appenders;
 
-    @Before
-    public void create_injector_factory() {
-        moduleFactory = ExtensionFactory.MODULE_FACTORY;
-        injectorFactory = ExtensionFactory.INJECTOR_FACTORY;
+    public ModuleAppenders(ModuleAppender... appenders) {
+        this.appenders = appenders;
+    }
+
+    public Module append(Module appendTo, Object testCase, Class<?> clazz) {
+        Module appended = appendTo;
+        for (ModuleAppender appender : appenders) {
+            appended = appender.append(appended, testCase, clazz);
+        }
+        return appended;
     }
 }
