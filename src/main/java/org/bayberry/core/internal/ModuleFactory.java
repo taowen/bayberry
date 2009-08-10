@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * @author taowen
  */
-public class _ModuleFactory {
+public class ModuleFactory {
 
     private final ModuleInstantiator instantiator = new ModuleInstantiator();
     private final FromConfiguredWith fromConfiguredWith = new FromConfiguredWith(instantiator);

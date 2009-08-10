@@ -18,14 +18,14 @@ import com.google.inject.Module;
 import com.google.inject.internal.Function;
 import com.google.inject.internal.MapMaker;
 import com.google.inject.internal.Nullable;
-import org.bayberry.core.internal._ModuleFactory;
+import org.bayberry.core.internal.ModuleFactory;
 
 import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author taowen
  */
-public class _InjectorFactory {
+public class InjectorFactory {
 
     private final ConcurrentMap<Module, Injector> injectors = new MapMaker()
             .softValues()
@@ -35,9 +35,9 @@ public class _InjectorFactory {
                 }
             });
 
-    private final _ModuleFactory moduleFactory;
+    private final ModuleFactory moduleFactory;
 
-    public _InjectorFactory(_ModuleFactory moduleFactory) {
+    public InjectorFactory(ModuleFactory moduleFactory) {
         this.moduleFactory = moduleFactory;
     }
 

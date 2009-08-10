@@ -12,8 +12,8 @@
 */
 package org.bayberry.core;
 
-import org.bayberry.core.internal._InjectorFactory;
-import org.bayberry.core.internal._ModuleFactory;
+import org.bayberry.core.internal.InjectorFactory;
+import org.bayberry.core.internal.ModuleFactory;
 import org.bayberry.core.spi.Extension;
 
 /**
@@ -21,9 +21,9 @@ import org.bayberry.core.spi.Extension;
  */
 public class ExtensionFactory {
 
-    private final static _InjectorFactory injectorFactory = new _InjectorFactory(new _ModuleFactory());
+    private final static InjectorFactory INJECTOR_FACTORY = new InjectorFactory(new ModuleFactory());
 
     public static Extension fromTestCase(Object testCase) {
-        return injectorFactory.fromTestCase(testCase).getInstance(Extension.class);
+        return INJECTOR_FACTORY.fromTestCase(testCase).getInstance(Extension.class);
     }
 }
