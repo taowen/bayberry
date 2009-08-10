@@ -14,37 +14,23 @@ package org.bayberry.core.internal;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import com.google.inject.Provides;
-import com.google.inject.internal.Function;
-import com.google.inject.internal.MapMaker;
-import com.google.inject.internal.Nullable;
-import org.bayberry.core.api.ConfiguredWith;
-import org.bayberry.core.api.OverriddenBy;
-import org.bayberry.core.internal.CombinedModules;
-import org.bayberry.core.internal.OverridenModule;
+import org.bayberry.core.internal.module.FromConfiguredWith;
+import org.bayberry.core.internal.module.FromOverridenBy;
+import org.bayberry.core.internal.module.FromProvides;
+import org.bayberry.core.internal.module.ModuleInstantiator;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author taowen
  */
 public class _ModuleFactory {
 
-    private final ConcurrentMap<Class<? extends Module>, Module> moduleInstances = new MapMaker()
-            .makeComputingMap(new Function<Class<? extends Module>, Module>() {
-                public Module apply(@Nullable Class<? extends Module> moduleClass) {
-                    try {
-                        return moduleClass.newInstance();
-                    } catch (Throwable e) {
-                        throw new RuntimeException("can not instantiate module " + moduleClass, e);
-                    }
-                }
-            });
+    private final ModuleInstantiator instantiator = new ModuleInstantiator();
+    private final FromConfiguredWith fromConfiguredWith = new FromConfiguredWith(instantiator);
+    private final FromProvides fromProvides = new FromProvides();
+    private final FromOverridenBy fromOverridenBy = new FromOverridenBy(instantiator);
 
     private final static Module DUMMY_MODULE = new Module() {
         public void configure(Binder binder) {
@@ -56,37 +42,11 @@ public class _ModuleFactory {
         collectClasses(classes, testCase.getClass());
         Module module = DUMMY_MODULE;
         for (Class<?> clazz : classes) {
-            Set<Module> modules = fromConfiguredWith(clazz);
-            modules.addAll(fromProvides(testCase, clazz));
-            module = new CombinedModules(module, modules);
-            OverriddenBy overriddenBy = clazz.getAnnotation(OverriddenBy.class);
-            if (overriddenBy != null) {
-                module = new OverridenModule(module, newInstances(overriddenBy.value()));
-            }
+            module = fromConfiguredWith.append(module, testCase, clazz);
+            module = fromProvides.append(module, testCase, clazz);
+            module = fromOverridenBy.append(module, testCase, clazz);
         }
         return module;
-    }
-
-    private Set<Module> fromProvides(Object testCase, Class<?> clazz) {
-        Set<Module> modules = new HashSet<Module>();
-        for (Method method : clazz.getDeclaredMethods()) {
-            if (!method.isAnnotationPresent(Provides.class)) {
-                continue;
-            }
-            if (!method.getReturnType().equals(Module.class)) {
-                continue;
-            }
-            if (method.getParameterTypes().length != 0) {
-                continue;
-            }
-            method.setAccessible(true);
-            try {
-                modules.add((Module) method.invoke(testCase));
-            } catch (Exception e) {
-                throw new RuntimeException("failed to get module from method " + method, e);
-            }
-        }
-        return modules;
     }
 
     private void collectClasses(List<Class<?>> classes, Class<?> clazz) {
@@ -97,24 +57,4 @@ public class _ModuleFactory {
         collectClasses(classes, clazz.getSuperclass());
     }
 
-    private Set<Module> fromConfiguredWith(Class<?> clazz) {
-        ConfiguredWith configuredWith = clazz.getAnnotation(ConfiguredWith.class);
-        if (configuredWith == null) {
-            return new HashSet<Module>();
-        }
-        Class<? extends Module>[] moduleClasses = configuredWith.value();
-        return newInstances(moduleClasses);
-    }
-
-    private Set<Module> newInstances(Class<? extends Module>[] moduleClasses) {
-        Set<Module> modules = new HashSet<Module>();
-        for (Class<? extends Module> moduleClass : moduleClasses) {
-            modules.add(newInstance(moduleClass));
-        }
-        return modules;
-    }
-
-    private Module newInstance(Class<? extends Module> moduleClass) {
-        return moduleInstances.get(moduleClass);
-    }
 }
