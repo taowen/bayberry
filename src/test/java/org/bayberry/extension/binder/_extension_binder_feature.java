@@ -13,27 +13,45 @@
 package org.bayberry.extension.binder;
 
 import org.bayberry.core.spi.Extension;
+import org.junit.Before;
 
-import java.util.List;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
-* @author taowen
-*/
-public class StubExtension implements Extension {
+ * @author taowen
+ */
+public class _extension_binder_feature {
 
-    private final List<Extension> called;
+    protected ArrayList<Extension> called;
+    protected Extension1 extension1;
+    protected Extension2 extension2;
+    protected Extension3 extension3;
 
-    public StubExtension(List<Extension> called) {
-        this.called = called;
+    @Before
+    public void create_extensions() {
+        called = new ArrayList<Extension>();
+        extension1 = new Extension1(called);
+        extension2 = new Extension2(called);
+        extension3 = new Extension3(called);
     }
 
-    public void before(Object testCase, Method testMethod) throws Throwable {
-        called.add(this);
-    }
 
-    public void after(Object testCase, Method testMethod) throws Throwable {
-        called.add(this);
+    public static class StubExtension implements Extension {
+        private final List<Extension> called;
+
+        public StubExtension(List<Extension> called) {
+            this.called = called;
+        }
+
+        public void before(Object testCase, Method testMethod) throws Throwable {
+            called.add(this);
+        }
+
+        public void after(Object testCase, Method testMethod) throws Throwable {
+            called.add(this);
+        }
     }
 
     public static class Extension1 extends StubExtension {
