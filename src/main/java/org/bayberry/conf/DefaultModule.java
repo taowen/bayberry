@@ -32,9 +32,8 @@ import java.util.Set;
 public class DefaultModule extends AbstractModule {
 
     protected void configure() {
-        bind(Extension.class).toInstance(new ProvidedExtensions(getProvider(Key.get(new TypeLiteral<Set<Extension>>() {
-        }))));
         new ExtensionsBinder(binder())
+                .init()
                 .add(InjectionExtension.class)
                 .insert(InjectionExtension.class, ScopeExtension.class);
         bindScope(PerTest.class, PerTestScope.INSTANCE);

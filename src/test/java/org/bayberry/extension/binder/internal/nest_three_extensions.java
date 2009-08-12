@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.extension.binder;
+package org.bayberry.extension.binder.internal;
 
 import org.bayberry.core.spi.Extension;
 import org.bayberry.extension.binder.internal.NestedExtensions;

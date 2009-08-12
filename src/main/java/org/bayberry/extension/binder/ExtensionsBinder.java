@@ -15,6 +15,7 @@ package org.bayberry.extension.binder;
 import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
+import com.google.inject.Provider;
 import com.google.inject.multibindings.Multibinder;
 import org.bayberry.core.spi.Extension;
 import org.bayberry.extension.binder.internal.*;
@@ -37,6 +38,16 @@ public class ExtensionsBinder {
         Multibinder.newSetBinder(binder, Extension.class)
                 .addBinding()
                 .toInstance(wrapExtension(extensionClass));
+        return this;
+    }
+
+    public ExtensionsBinder add(Class<? extends Extension> firstExtensionClass,
+                                Class<? extends Extension>... extensionClasses) {
+        add(firstExtensionClass);
+        Class<? extends Extension> lastOne = firstExtensionClass;
+        for (Class<? extends Extension> extensionClass : extensionClasses) {
+            append(lastOne, extensionClass);
+        }
         return this;
     }
 
@@ -70,5 +81,12 @@ public class ExtensionsBinder {
     private ProvidedExtensions getExtensions(Annotation annotation) {
         return new ProvidedExtensions(binder.getProvider(Key.get(new TypeLiteral<Set<Extension>>() {
         }, annotation)));
+    }
+
+    public ExtensionsBinder init() {
+        Provider<Set<Extension>> extensionsProvider = binder.getProvider(Key.get(new TypeLiteral<Set<Extension>>() {
+        }));
+        binder.bind(Extension.class).toInstance(new ProvidedExtensions(extensionsProvider));
+        return this;
     }
 }
