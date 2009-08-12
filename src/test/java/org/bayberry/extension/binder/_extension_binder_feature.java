@@ -18,6 +18,7 @@ import com.google.inject.Provides;
 import com.google.inject.Guice;
 import org.bayberry.core.spi.Extension;
 import org.junit.Before;
+import org.junit.Assert;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -63,12 +64,22 @@ public class _extension_binder_feature {
         public Extension1(List<Extension> called) {
             super(called);
         }
+
+        @Override
+        public String toString() {
+            return "1";
+        }
     }
 
     public static class Extension2 extends StubExtension {
 
         public Extension2(List<Extension> called) {
             super(called);
+        }
+
+        @Override
+        public String toString() {
+            return "2";
         }
     }
 
@@ -77,10 +88,19 @@ public class _extension_binder_feature {
         public Extension3(List<Extension> called) {
             super(called);
         }
+
+        @Override
+        public String toString() {
+            return "3";
+        }
     }
 
     protected void call(Module module) throws Throwable {
         Guice.createInjector(module, extensionsModule()).getInstance(Extension.class).before(null, null);
+    }
+
+    protected void assertCalledSequence(Extension... extensions) {
+        Assert.assertArrayEquals(extensions, called.toArray());
     }
 
     private Module extensionsModule() {

@@ -13,28 +13,23 @@
 package org.bayberry.extension.binder;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import org.bayberry.core.spi.Extension;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * @author taowen
  */
-public class add_extension extends _extension_binder_feature {
-
+public class append_extension extends _extension_binder_feature {
     @Test
-    public void should_in_arguments_order() throws Throwable {
+    public void should_append_after_the_target() throws Throwable {
         call(new Module());
-        assertCalledSequence(extension1, extension2, extension3);
+        assertCalledSequence(extension1, extension3);
     }
 
     public static class Module extends AbstractModule {
         protected void configure() {
-            new ExtensionsBinder(binder()).init().add(
-                    Extension1.class,
-                    Extension2.class,
-                    Extension3.class);
+            new ExtensionsBinder(binder()).init()
+                    .add(Extension1.class)
+                    .append(Extension1.class, Extension3.class);
         }
     }
 }
