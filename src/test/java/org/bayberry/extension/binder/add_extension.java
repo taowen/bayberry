@@ -17,9 +17,6 @@ import com.google.inject.Guice;
 import org.bayberry.core.spi.Extension;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Before;
-
-import java.util.ArrayList;
 
 /**
  * @author taowen
@@ -28,18 +25,16 @@ public class add_extension extends _extension_binder_feature {
 
     @Test
     public void should_in_arguments_order() throws Throwable {
-        AbstractModule module = new AbstractModule() {
-            protected void configure() {
-                new ExtensionsBinder(binder()).init().add(
-                        Extension1.class,
-                        Extension2.class,
-                        Extension3.class);
-                bind(Extension1.class).toInstance(extension1);
-                bind(Extension2.class).toInstance(extension2);
-                bind(Extension3.class).toInstance(extension3);
-            }
-        };
-        Guice.createInjector(module).getInstance(Extension.class).before(null, null);
+        call(new Module());
         Assert.assertArrayEquals(called.toArray(), new Object[]{extension1, extension2, extension3});
+    }
+
+    public static class Module extends AbstractModule {
+        protected void configure() {
+            new ExtensionsBinder(binder()).init().add(
+                    Extension1.class,
+                    Extension2.class,
+                    Extension3.class);
+        }
     }
 }

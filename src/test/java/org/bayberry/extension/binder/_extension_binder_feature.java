@@ -12,12 +12,16 @@
 */
 package org.bayberry.extension.binder;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.google.inject.Provides;
+import com.google.inject.Guice;
 import org.bayberry.core.spi.Extension;
 import org.junit.Before;
 
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author taowen
@@ -73,5 +77,21 @@ public class _extension_binder_feature {
         public Extension3(List<Extension> called) {
             super(called);
         }
+    }
+
+    protected void call(Module module) throws Throwable {
+        Guice.createInjector(module, extensionsModule()).getInstance(Extension.class).before(null, null);
+    }
+
+    private Module extensionsModule() {
+
+        return new AbstractModule() {
+            protected void configure() {
+                bind(Extension1.class).toInstance(extension1);
+                bind(Extension2.class).toInstance(extension2);
+                bind(Extension3.class).toInstance(extension3);
+            }
+        };
+
     }
 }
