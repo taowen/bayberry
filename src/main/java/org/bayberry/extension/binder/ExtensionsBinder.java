@@ -64,6 +64,10 @@ public class ExtensionsBinder {
         return this;
     }
 
+    public static ExtensionsBinder extensionsIn(Binder binder) {
+        return new ExtensionsBinder(binder);
+    }
+
     private Extension wrapExtension(Class<? extends Extension> extensionClass) {
         Head before = headOf(extensionClass);
         Multibinder.newSetBinder(binder, Extension.class, before);

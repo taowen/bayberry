@@ -17,6 +17,7 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import org.bayberry.core.spi.Extension;
 import org.bayberry.extension.binder.ExtensionsBinder;
+import static org.bayberry.extension.binder.ExtensionsBinder.extensionsIn;
 import org.bayberry.extension.binder.internal.ProvidedExtensions;
 import org.bayberry.extension.injection.InjectionExtension;
 import org.bayberry.extension.scope.PerTest;
@@ -32,7 +33,7 @@ import java.util.Set;
 public class DefaultModule extends AbstractModule {
 
     protected void configure() {
-        new ExtensionsBinder(binder())
+        extensionsIn(binder())
                 .init()
                 .add(ScopeExtension.class, InjectionExtension.class);
         bindScope(PerTest.class, PerTestScope.INSTANCE);

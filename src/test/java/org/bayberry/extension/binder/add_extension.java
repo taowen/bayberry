@@ -13,9 +13,7 @@
 package org.bayberry.extension.binder;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import org.bayberry.core.spi.Extension;
-import org.junit.Assert;
+import static org.bayberry.extension.binder.ExtensionsBinder.extensionsIn;
 import org.junit.Test;
 
 /**
@@ -31,7 +29,7 @@ public class add_extension extends _extension_binder_feature {
 
     public static class Module extends AbstractModule {
         protected void configure() {
-            new ExtensionsBinder(binder()).init().add(
+            extensionsIn(binder()).init().add(
                     Extension1.class,
                     Extension2.class,
                     Extension3.class);

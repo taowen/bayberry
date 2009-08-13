@@ -14,6 +14,7 @@ package org.bayberry.extension.binder;
 
 import com.google.inject.AbstractModule;
 import org.junit.Test;
+import static org.bayberry.extension.binder.ExtensionsBinder.extensionsIn;
 
 /**
  * @author taowen
@@ -28,7 +29,7 @@ public class insert_extension extends _extension_binder_feature {
 
     public static class Module extends AbstractModule {
         protected void configure() {
-            new ExtensionsBinder(binder()).init()
+            extensionsIn(binder()).init()
                     .add(Extension1.class, Extension2.class)
                     .insert(Extension3.class).before(Extension2.class);
         }
