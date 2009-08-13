@@ -13,6 +13,8 @@
 package org.bayberry.fixture.api;
 
 /**
+ * Mark the class to be candidate of fixture injection
+ *
  * @author taowen
  */
 public interface UsingFixture {

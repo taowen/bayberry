@@ -20,11 +20,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Mark the field who needs to be initialized with the fixture provider
+ *
  * @author taowen
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Fixture {
 
+    /**
+     * @return the class of the fixture provider
+     */
     Class<? extends Provider> value();
 }

@@ -15,18 +15,30 @@ package org.bayberry.fixture.api;
 import com.google.inject.Provider;
 
 /**
+ * Template of fixture provider which assumes the fixture is singleton
+ *
  * @author taowen
  */
 public abstract class FixtureProvider implements Provider<Object>, UsingFixture {
 
     private Object fixture;
 
+    /**
+     * create the fixture when the fixture is not cached inside
+     *
+     * @return the fixture created or cached
+     */
     public final Object get() {
         if (fixture == null) {
-            fixture = getFixture();
+            fixture = createFixture();
         }
         return fixture;
     }
 
-    protected abstract Object getFixture();
+    /**
+     * extension for creating fixture
+     *
+     * @return the new fixture instance
+     */
+    protected abstract Object createFixture();
 }

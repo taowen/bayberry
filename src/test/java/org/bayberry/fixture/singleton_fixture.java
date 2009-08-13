@@ -36,7 +36,7 @@ public class singleton_fixture extends _fixture_module_feature {
     @Singleton
     public static class SomeFixtureProvider extends FixtureProvider {
 
-        protected Object getFixture() {
+        protected Object createFixture() {
             return new Object();
         }
     }

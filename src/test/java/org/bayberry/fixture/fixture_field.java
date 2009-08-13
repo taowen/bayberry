@@ -35,14 +35,14 @@ public class fixture_field extends _fixture_module_feature {
         @Fixture(World.class)
         String world;
 
-        protected Object getFixture() {
+        protected Object createFixture() {
             return world;
         }
     }
 
     public static class World extends FixtureProvider {
 
-        protected Object getFixture() {
+        protected Object createFixture() {
             return "World";
         }
     }
