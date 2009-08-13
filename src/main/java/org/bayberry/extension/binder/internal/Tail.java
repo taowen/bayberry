@@ -12,24 +12,24 @@
 */
 package org.bayberry.extension.binder.internal;
 
-import com.google.inject.BindingAnnotation;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Annotation;
-
 import org.bayberry.core.spi.Extension;
 
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import com.google.inject.BindingAnnotation;
+
 /**
-     * @author taowen
+ * @author taowen
  */
 @Retention(RetentionPolicy.RUNTIME)
 @BindingAnnotation
-public @interface Before {
+public @interface Tail {
 
     public abstract Class<? extends Extension> value();
 
-    static class Impl implements Before {
+    static class Impl implements Tail {
 
         private final Class<? extends Extension> value;
 
@@ -42,7 +42,7 @@ public @interface Before {
         }
 
         public Class<? extends Annotation> annotationType() {
-            return Before.class;
+            return Tail.class;
         }
 
         @Override
@@ -61,6 +61,9 @@ public @interface Before {
         public int hashCode() {
             return value.hashCode();
         }
-    }
 
+        public static Tail tailOf(Class<? extends Extension> value) {
+            return new Impl(value);
+        }
+    }
 }

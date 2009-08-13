@@ -19,6 +19,8 @@ import com.google.inject.Provider;
 import com.google.inject.multibindings.Multibinder;
 import org.bayberry.core.spi.Extension;
 import org.bayberry.extension.binder.internal.*;
+import static org.bayberry.extension.binder.internal.Tail.Impl.tailOf;
+import static org.bayberry.extension.binder.internal.Head.Impl.headOf;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
@@ -53,7 +55,7 @@ public class ExtensionsBinder {
 
     public ExtensionsBinder insert(Class<? extends Extension> beforeExtensionClass,
                                    Class<? extends Extension> extensionClass) {
-        Multibinder.newSetBinder(binder, Extension.class, new Before.Impl(beforeExtensionClass))
+        Multibinder.newSetBinder(binder, Extension.class, headOf(beforeExtensionClass))
                 .addBinding()
                 .toInstance(wrapExtension(extensionClass));
         return this;
@@ -61,16 +63,16 @@ public class ExtensionsBinder {
 
     public ExtensionsBinder append(Class<? extends Extension> afterExtensionClass,
                                    Class<? extends Extension> extensionClass) {
-        Multibinder.newSetBinder(binder, Extension.class, new After.Impl(afterExtensionClass))
+        Multibinder.newSetBinder(binder, Extension.class, tailOf(afterExtensionClass))
                 .addBinding()
                 .toInstance(wrapExtension(extensionClass));
         return this;
     }
 
     private Extension wrapExtension(Class<? extends Extension> extensionClass) {
-        Before.Impl before = new Before.Impl(extensionClass);
+        Head before = headOf(extensionClass);
         Multibinder.newSetBinder(binder, Extension.class, before);
-        After.Impl after = new After.Impl(extensionClass);
+        Tail after = tailOf(extensionClass);
         Multibinder.newSetBinder(binder, Extension.class, after);
         return NestedExtensions.of(
                 getExtensions(before),
