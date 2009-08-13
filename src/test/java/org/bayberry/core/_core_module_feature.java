@@ -26,7 +26,7 @@ public abstract class _core_module_feature {
 
     @Before
     public void create_injector_factory() {
-        moduleFactory = ExtensionFactory.MODULE_FACTORY;
-        injectorFactory = ExtensionFactory.INJECTOR_FACTORY;
+        moduleFactory = Bayberry.MODULE_FACTORY;
+        injectorFactory = Bayberry.INJECTOR_FACTORY;
     }
 }

@@ -14,12 +14,13 @@ package org.bayberry.junit4;
 
 import org.bayberry.core.api.ConfiguredWith;
 import org.bayberry.fixture.api.UsingFixture;
+import org.bayberry.conf.DefaultBayberryModule;
 import org.junit.runner.RunWith;
 
 /**
  * @author taowen
  */
-@RunWith(Bayberry.class)
-@ConfiguredWith(org.bayberry.conf.DefaultModule.class)
+@RunWith(BayberryRunner.class)
+@ConfiguredWith(DefaultBayberryModule.class)
 public abstract class UsingBayberry implements UsingFixture {
 }

@@ -23,7 +23,7 @@ import org.bayberry.fixture.FixtureModule;
 /**
  * @author taowen
  */
-public class DefaultModule extends AbstractModule {
+public class DefaultBayberryModule extends AbstractModule {
 
     protected void configure() {
         extensionsIn(binder()).add(ScopeExtension.class, InjectionExtension.class);
