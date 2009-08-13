@@ -10,26 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.fixture.internal;
-
-import com.google.inject.MembersInjector;
-
-import java.util.Set;
+package org.bayberry.helper.api;
 
 /**
+ * Mark the class as candidate of helper injection
+ *
  * @author taowen
  */
-public class FixtureMembersInjector implements MembersInjector {
-
-    private final Set<FixtureField> fields;
-
-    public FixtureMembersInjector(Set<FixtureField> fields) {
-        this.fields = fields;
-    }
-
-    public void injectMembers(Object obj) {
-        for (FixtureField field : fields) {
-            field.inject(obj);
-        }
-    }
+public interface UsingHelper {
 }

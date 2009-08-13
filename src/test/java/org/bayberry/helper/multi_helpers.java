@@ -13,8 +13,7 @@
 package org.bayberry.helper;
 
 import com.google.inject.ImplementedBy;
-import com.google.inject.Inject;
-import com.google.inject.ProvidedBy;
+import org.bayberry.helper.api.Helper;
 import org.bayberry.junit4.UsingBayberry;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,8 +23,7 @@ import org.junit.Test;
  */
 public class multi_helpers extends UsingBayberry {
 
-    @Inject
-    Helper helper;
+    Helper12 helper;
 
     @Test
     public void should_be_merged() {
@@ -59,14 +57,7 @@ public class multi_helpers extends UsingBayberry {
         }
     }
 
-    @ProvidedBy(Helper.Provider.class)
-    public interface Helper extends Helper1, Helper2 {
-
-        public static class Provider extends HelperProvider<Helper> {
-
-            public Provider() {
-                super(Helper.class);
-            }
-        }
+    @Helper
+    public interface Helper12 extends Helper1, Helper2 {
     }
 }

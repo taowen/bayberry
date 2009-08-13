@@ -58,8 +58,8 @@ public class ExtensionsBinder {
         return this;
     }
 
-    public InserClause insert(Class<? extends Extension> extensionClass) {
-        return new InserClause(extensionClass);
+    public InsertClause insert(Class<? extends Extension> extensionClass) {
+        return new InsertClause(extensionClass);
     }
 
     public static ExtensionsBinder extensionsIn(Binder binder) {
@@ -82,11 +82,11 @@ public class ExtensionsBinder {
         }, annotation)));
     }
 
-    public class InserClause {
+    public class InsertClause {
 
         private final Class<? extends Extension> extensionClass;
 
-        public InserClause(Class<? extends Extension> extensionClass) {
+        public InsertClause(Class<? extends Extension> extensionClass) {
             this.extensionClass = extensionClass;
         }
 

@@ -15,6 +15,7 @@ package org.bayberry.junit4;
 import org.bayberry.core.api.ConfiguredWith;
 import org.bayberry.fixture.api.UsingFixture;
 import org.bayberry.conf.DefaultBayberryModule;
+import org.bayberry.helper.api.UsingHelper;
 import org.junit.runner.RunWith;
 
 /**
@@ -22,5 +23,5 @@ import org.junit.runner.RunWith;
  */
 @RunWith(BayberryRunner.class)
 @ConfiguredWith(DefaultBayberryModule.class)
-public abstract class UsingBayberry implements UsingFixture {
+public abstract class UsingBayberry implements UsingFixture, UsingHelper {
 }

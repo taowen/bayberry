@@ -10,21 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.fixture.internal;
+package org.bayberry.helper.api;
 
-import com.google.inject.TypeLiteral;
-import com.google.inject.spi.TypeEncounter;
-import com.google.inject.spi.TypeListener;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
+ * Mark the field as being initialized as helper
+ *
  * @author taowen
  */
-public class UsingFixtureTypeListener implements TypeListener {
-
-    public <I> void hear(TypeLiteral<I> typeLiteral, TypeEncounter<I> typeEncounter) {
-        Class clazz = typeLiteral.getRawType();
-        FixtureFieldsCollector collector = new FixtureFieldsCollector(typeEncounter);
-        collector.collectFixtureFields(clazz);
-        collector.registerMembersInjector();
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Helper {
 }

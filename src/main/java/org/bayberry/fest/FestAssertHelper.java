@@ -12,13 +12,9 @@
 */
 package org.bayberry.fest;
 
-import com.google.inject.ProvidedBy;
-import org.bayberry.helper.HelperProvider;
-
 /**
  * @author taowen
  */
-@ProvidedBy(FestAssertHelper.Provider.class)
 public interface FestAssertHelper extends
         BigDecimalAssertHelper,
         BooleanAssertHelper,
@@ -45,11 +41,4 @@ public interface FestAssertHelper extends
         ShortArrayAssertHelper,
         StringAssertHelper,
         ThrowableAssertHelper {
-
-    public static class Provider extends HelperProvider<FestAssertHelper> {
-
-        public Provider() {
-            super(FestAssertHelper.class);
-        }
-    }
 }

@@ -19,6 +19,7 @@ import org.bayberry.extension.scope.PerTest;
 import org.bayberry.extension.scope.ScopeExtension;
 import org.bayberry.extension.scope.internal.PerTestScope;
 import org.bayberry.fixture.FixtureModule;
+import org.bayberry.helper.HelperModule;
 
 /**
  * @author taowen
@@ -29,5 +30,6 @@ public class DefaultBayberryModule extends AbstractModule {
         extensionsIn(binder()).add(ScopeExtension.class, InjectionExtension.class);
         bindScope(PerTest.class, PerTestScope.INSTANCE);
         install(new FixtureModule());
+        install(new HelperModule());
     }
 }

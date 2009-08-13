@@ -10,10 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.fixture.internal;
+package org.bayberry.helper.internal;
 
-import com.google.inject.MembersInjector;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.spi.TypeEncounter;
+import org.bayberry.helper.api.Helper;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -22,39 +24,34 @@ import java.util.Set;
 /**
  * @author taowen
  */
-public class FixtureFieldsCollector {
+public class HelperFieldsCollector {
 
-    private final Set<FixtureField> fixtureFields = new HashSet<FixtureField>();
-    private final TypeEncounter typeEncounter;
+    private final Set<Field> helperFields = new HashSet<Field>();
+    private Provider<Injector> injectorProvider;
 
-    public FixtureFieldsCollector(TypeEncounter typeEncounter) {
-        this.typeEncounter = typeEncounter;
+    public HelperFieldsCollector(Class clazz) {
+        collectHelperFields(clazz);
     }
 
-    public <I> void collectFixtureFields(Class clazz) {
+    private void collectHelperFields(Class clazz) {
         if (clazz == null) {
             return;
         }
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
-            FixtureField fixtureField = FixtureField.create(field, typeEncounter);
-            if (fixtureField != null) {
-                fixtureFields.add(fixtureField);
+            if (field.getType().isAnnotationPresent(Helper.class)) {
+                helperFields.add(field);
             }
+
         }
-        collectFixtureFields(clazz.getSuperclass());
+        collectHelperFields(clazz.getSuperclass());
     }
 
-    public void registerMembersInjector() {
-        if (fixtureFields.isEmpty()) {
+    public void registerMembersInjector(TypeEncounter typeEncounter) {
+        if (helperFields.isEmpty()) {
             return;
         }
-        typeEncounter.register(new MembersInjector() {
-            public void injectMembers(Object obj) {
-                for (FixtureField field : fixtureFields) {
-                    field.inject(obj);
-                }
-            }
-        });
+        injectorProvider = typeEncounter.getProvider(Injector.class);
+        typeEncounter.register(new HelperFieldsInjector(helperFields, injectorProvider));
     }
 }

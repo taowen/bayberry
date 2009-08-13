@@ -10,33 +10,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.fixture;
+package org.bayberry.helper;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.AbstractMatcher;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
-import org.bayberry.fixture.api.UsingFixture;
-import org.bayberry.fixture.internal.FixtureFieldsCollector;
+import org.bayberry.helper.api.UsingHelper;
+import org.bayberry.helper.internal.HelperFieldsCollector;
 
 /**
  * @author taowen
  */
-public class FixtureModule extends AbstractModule {
+public class HelperModule extends AbstractModule {
 
     protected void configure() {
         bindListener(new AbstractMatcher<TypeLiteral>() {
             public boolean matches(TypeLiteral typeLiteral) {
-                return UsingFixture.class.isAssignableFrom(typeLiteral.getRawType());
+                return UsingHelper.class.isAssignableFrom(typeLiteral.getRawType());
             }
         }, new TypeListener() {
             public <I> void hear(TypeLiteral<I> typeLiteral, TypeEncounter<I> typeEncounter) {
-                Class clazz = typeLiteral.getRawType();
-                FixtureFieldsCollector collector = new FixtureFieldsCollector(typeEncounter);
-                collector.collectFixtureFields(clazz);
-                collector.registerMembersInjector();
+                new HelperFieldsCollector(typeLiteral.getRawType()).registerMembersInjector(typeEncounter);
             }
         });
+
     }
 }
