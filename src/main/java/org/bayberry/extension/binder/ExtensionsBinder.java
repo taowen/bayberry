@@ -12,10 +12,7 @@
 */
 package org.bayberry.extension.binder;
 
-import com.google.inject.Binder;
-import com.google.inject.Key;
-import com.google.inject.Provider;
-import com.google.inject.TypeLiteral;
+import com.google.inject.*;
 import com.google.inject.multibindings.Multibinder;
 import org.bayberry.core.spi.Extension;
 import org.bayberry.extension.binder.internal.*;
@@ -31,9 +28,17 @@ import java.util.Set;
 public class ExtensionsBinder {
 
     private final Binder binder;
+    private static final Module MODULE = new AbstractModule() {
+        protected void configure() {
+            Provider<Set<Extension>> extensionsProvider = getProvider(Key.get(new TypeLiteral<Set<Extension>>() {
+            }));
+            bind(Extension.class).toInstance(new ProvidedExtensions(extensionsProvider));
+        }
+    };
 
     public ExtensionsBinder(Binder binder) {
         this.binder = binder;
+        binder.install(MODULE);
     }
 
     public ExtensionsBinder add(Class<? extends Extension> extensionClass) {
@@ -55,13 +60,6 @@ public class ExtensionsBinder {
 
     public InserClause insert(Class<? extends Extension> extensionClass) {
         return new InserClause(extensionClass);
-    }
-
-    public ExtensionsBinder init() {
-        Provider<Set<Extension>> extensionsProvider = binder.getProvider(Key.get(new TypeLiteral<Set<Extension>>() {
-        }));
-        binder.bind(Extension.class).toInstance(new ProvidedExtensions(extensionsProvider));
-        return this;
     }
 
     public static ExtensionsBinder extensionsIn(Binder binder) {

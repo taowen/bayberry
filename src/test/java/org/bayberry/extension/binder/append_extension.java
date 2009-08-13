@@ -28,7 +28,7 @@ public class append_extension extends _extension_binder_feature {
 
     public static class Module extends AbstractModule {
         protected void configure() {
-            extensionsIn(binder()).init()
+            extensionsIn(binder())
                     .add(Extension1.class)
                     .insert(Extension3.class).after(Extension1.class);
         }
