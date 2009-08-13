@@ -30,7 +30,7 @@ public class insert_extension extends _extension_binder_feature {
         protected void configure() {
             new ExtensionsBinder(binder()).init()
                     .add(Extension1.class, Extension2.class)
-                    .insert(Extension2.class, Extension3.class);
+                    .insert(Extension3.class).before(Extension2.class);
         }
     }
 }

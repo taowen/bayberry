@@ -34,8 +34,7 @@ public class DefaultModule extends AbstractModule {
     protected void configure() {
         new ExtensionsBinder(binder())
                 .init()
-                .add(InjectionExtension.class)
-                .insert(InjectionExtension.class, ScopeExtension.class);
+                .add(ScopeExtension.class, InjectionExtension.class);
         bindScope(PerTest.class, PerTestScope.INSTANCE);
         install(new FixtureModule());
     }

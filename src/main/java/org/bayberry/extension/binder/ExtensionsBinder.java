@@ -14,13 +14,13 @@ package org.bayberry.extension.binder;
 
 import com.google.inject.Binder;
 import com.google.inject.Key;
-import com.google.inject.TypeLiteral;
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.Multibinder;
 import org.bayberry.core.spi.Extension;
 import org.bayberry.extension.binder.internal.*;
-import static org.bayberry.extension.binder.internal.Tail.Impl.tailOf;
 import static org.bayberry.extension.binder.internal.Head.Impl.headOf;
+import static org.bayberry.extension.binder.internal.Tail.Impl.tailOf;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
@@ -48,24 +48,19 @@ public class ExtensionsBinder {
         add(firstExtensionClass);
         Class<? extends Extension> lastOne = firstExtensionClass;
         for (Class<? extends Extension> extensionClass : extensionClasses) {
-            append(lastOne, extensionClass);
+            insert(extensionClass).after(lastOne);
         }
         return this;
     }
 
-    public ExtensionsBinder insert(Class<? extends Extension> beforeExtensionClass,
-                                   Class<? extends Extension> extensionClass) {
-        Multibinder.newSetBinder(binder, Extension.class, headOf(beforeExtensionClass))
-                .addBinding()
-                .toInstance(wrapExtension(extensionClass));
-        return this;
+    public InserClause insert(Class<? extends Extension> extensionClass) {
+        return new InserClause(extensionClass);
     }
 
-    public ExtensionsBinder append(Class<? extends Extension> afterExtensionClass,
-                                   Class<? extends Extension> extensionClass) {
-        Multibinder.newSetBinder(binder, Extension.class, tailOf(afterExtensionClass))
-                .addBinding()
-                .toInstance(wrapExtension(extensionClass));
+    public ExtensionsBinder init() {
+        Provider<Set<Extension>> extensionsProvider = binder.getProvider(Key.get(new TypeLiteral<Set<Extension>>() {
+        }));
+        binder.bind(Extension.class).toInstance(new ProvidedExtensions(extensionsProvider));
         return this;
     }
 
@@ -85,10 +80,26 @@ public class ExtensionsBinder {
         }, annotation)));
     }
 
-    public ExtensionsBinder init() {
-        Provider<Set<Extension>> extensionsProvider = binder.getProvider(Key.get(new TypeLiteral<Set<Extension>>() {
-        }));
-        binder.bind(Extension.class).toInstance(new ProvidedExtensions(extensionsProvider));
-        return this;
+    public class InserClause {
+
+        private final Class<? extends Extension> extensionClass;
+
+        public InserClause(Class<? extends Extension> extensionClass) {
+            this.extensionClass = extensionClass;
+        }
+
+        public ExtensionsBinder before(Class<? extends Extension> beforeExtensionClass) {
+            Multibinder.newSetBinder(binder, Extension.class, headOf(beforeExtensionClass))
+                    .addBinding()
+                    .toInstance(wrapExtension(extensionClass));
+            return ExtensionsBinder.this;
+        }
+
+        public ExtensionsBinder after(Class<? extends Extension> afterExtensionClass) {
+            Multibinder.newSetBinder(binder, Extension.class, tailOf(afterExtensionClass))
+                    .addBinding()
+                    .toInstance(wrapExtension(extensionClass));
+            return ExtensionsBinder.this;
+        }
     }
 }

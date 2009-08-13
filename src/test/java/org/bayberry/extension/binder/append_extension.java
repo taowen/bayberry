@@ -29,7 +29,7 @@ public class append_extension extends _extension_binder_feature {
         protected void configure() {
             new ExtensionsBinder(binder()).init()
                     .add(Extension1.class)
-                    .append(Extension1.class, Extension3.class);
+                    .insert(Extension3.class).after(Extension1.class);
         }
     }
 }
