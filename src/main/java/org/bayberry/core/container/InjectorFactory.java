@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.guice.internal;
+package org.bayberry.core.container;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -18,7 +18,13 @@ import com.google.inject.Module;
 import com.google.inject.internal.Function;
 import com.google.inject.internal.MapMaker;
 import com.google.inject.internal.Nullable;
-import org.bayberry.core.guice.internal.ModuleFactory;
+import org.bayberry.core.container.internal.ModuleFactory;
+import org.bayberry.core.container.internal.module.FromConfiguredWith;
+import org.bayberry.core.container.internal.module.FromOverridenBy;
+import org.bayberry.core.container.internal.module.FromProvides;
+import org.bayberry.core.container.internal.module.ModuleAppenders;
+import org.bayberry.core.container.spi.ModuleAppender;
+import org.bayberry.core.container.spi.ModuleInstantiator;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -27,6 +33,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class InjectorFactory {
 
+    public final static ModuleInstantiator MODULE_INSTANTIATOR = new ModuleInstantiator();
     private final ConcurrentMap<Module, Injector> injectors = new MapMaker()
             .softValues()
             .makeComputingMap(new Function<Module, Injector>() {
@@ -37,11 +44,20 @@ public class InjectorFactory {
 
     private final ModuleFactory moduleFactory;
 
-    public InjectorFactory(ModuleFactory moduleFactory) {
+    private InjectorFactory(ModuleFactory moduleFactory) {
         this.moduleFactory = moduleFactory;
     }
 
     public Injector fromTestCase(Object testCase) {
         return injectors.get(moduleFactory.fromTestCase(testCase));
+    }
+
+    public static InjectorFactory create(ModuleAppender... additionalAppenders) {
+        ModuleAppenders appenders = new ModuleAppenders(
+                new FromConfiguredWith(MODULE_INSTANTIATOR),
+                new FromProvides(),
+                new FromOverridenBy(MODULE_INSTANTIATOR));
+        appenders.addAll(additionalAppenders);
+        return new InjectorFactory(new ModuleFactory(appenders));
     }
 }

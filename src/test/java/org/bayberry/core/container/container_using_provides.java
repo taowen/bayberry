@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.guice;
+package org.bayberry.core.container;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
@@ -21,7 +21,7 @@ import org.junit.Test;
 /**
  * @author taowen
  */
-public class provides extends _core_module_feature {
+public class container_using_provides extends _core_module_feature {
 
     @Test
     public void should_be_used_to_create_module() {

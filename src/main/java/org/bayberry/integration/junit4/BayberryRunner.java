@@ -12,7 +12,7 @@
 */
 package org.bayberry.integration.junit4;
 
-import org.bayberry.core.guice.Bayberry;
+import org.bayberry.core.container.InjectorFactory;
 import org.bayberry.core.test.spi.TestExtension;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
@@ -32,7 +32,7 @@ public class BayberryRunner extends BlockJUnit4ClassRunner {
 
     @Override
     protected Statement withAfters(FrameworkMethod frameworkMethod, final Object testCase, Statement statement) {
-        final TestExtension extension = Bayberry.createInjector(testCase).getInstance(TestExtension.class);
+        final TestExtension extension = InjectorFactory.create().fromTestCase(testCase).getInstance(TestExtension.class);
         final Method testMethod = frameworkMethod.getMethod();
         final Statement next = super.withAfters(frameworkMethod, testCase, statement);
         return new Statement() {

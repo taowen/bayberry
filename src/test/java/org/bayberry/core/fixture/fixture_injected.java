@@ -20,7 +20,7 @@ import org.junit.Test;
 /**
  * @author taowen
  */
-public class fixture_field extends _fixture_module_feature {
+public class fixture_injected extends _fixture_module_feature {
 
     @Fixture(Hello.class)
     String hello;

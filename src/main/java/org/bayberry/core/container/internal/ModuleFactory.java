@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.guice.internal;
+package org.bayberry.core.container.internal;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import org.bayberry.core.guice.internal.module.ModuleAppender;
+import org.bayberry.core.container.spi.ModuleAppender;
 
 import java.util.ArrayList;
 import java.util.List;

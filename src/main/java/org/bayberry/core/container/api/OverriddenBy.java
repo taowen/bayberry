@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.guice.api;
+package org.bayberry.core.container.api;
 
 import com.google.inject.Module;
 
@@ -21,11 +21,11 @@ import java.lang.annotation.Target;
 
 /**
  * @author taowen
- * @see org.bayberry.core.guice.api.OverriddenBy
- * specify modules used to create injector
+ * @see org.bayberry.core.container.api.ConfiguredWith
+ * specify modules used to override previously selected modules which were specified by ConfiguredWith
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ConfiguredWith {
+public @interface OverriddenBy {
     Class<? extends Module>[] value();
 }

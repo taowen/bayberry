@@ -21,7 +21,7 @@ import org.junit.Test;
 /**
  * @author taowen
  */
-public class multi_helpers extends UsingBayberry {
+public class multi_helpers_merged extends UsingBayberry {
 
     @Helper
     Helper12 helper;

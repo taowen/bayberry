@@ -10,24 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.guice;
+package org.bayberry.core.container;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.bayberry.core.guice.api.ConfiguredWith;
-import org.bayberry.core.guice.api.OverriddenBy;
+import org.bayberry.core.container.api.ConfiguredWith;
+import org.bayberry.core.container.api.OverriddenBy;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * @author taowen
  */
-public class overriden_with extends _core_module_feature {
+public class container_using_overriden_with extends _core_module_feature {
 
     @Test
     public void should_override_my_and_super_configured_with_module() {
-        Injector injector = Guice.createInjector(moduleFactory.fromTestCase(new SomeTestCase()));
+        Injector injector = injectorFactory.fromTestCase(new SomeTestCase());
         Assert.assertEquals("OverridenHello", injector.getInstance(String.class));
         Assert.assertEquals("OverridenWorld", injector.getInstance(Object.class));
     }

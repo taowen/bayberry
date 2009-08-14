@@ -10,18 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.integration.junit4;
+package org.bayberry.core.container;
 
-import org.bayberry.core.container.api.ConfiguredWith;
-import org.bayberry.core.fixture.api.UsingFixture;
-import org.bayberry.core.DefaultBayberryModule;
-import org.bayberry.core.helper.api.UsingHelper;
-import org.junit.runner.RunWith;
+import org.bayberry.core.container.InjectorFactory;
+import org.junit.Before;
 
 /**
  * @author taowen
  */
-@RunWith(BayberryRunner.class)
-@ConfiguredWith(DefaultBayberryModule.class)
-public abstract class UsingBayberry implements UsingFixture, UsingHelper {
+public abstract class _core_module_feature {
+
+    protected InjectorFactory injectorFactory;
+
+    @Before
+    public void create_injector_factory() {
+        injectorFactory = InjectorFactory.create();
+    }
 }

@@ -10,18 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.guice;
+package org.bayberry.core.container;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
-import org.bayberry.core.guice.api.ConfiguredWith;
+import org.bayberry.core.container.api.ConfiguredWith;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * @author taowen
  */
-public class inheritance extends _core_module_feature {
+public class container_inheritance extends _core_module_feature {
 
     @Test
     public void should_also_be_used_to_create_module() {

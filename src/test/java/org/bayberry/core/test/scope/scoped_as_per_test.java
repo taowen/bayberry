@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * @author taowen
  */
-public class per_test extends UsingBayberry {
+public class scoped_as_per_test extends UsingBayberry {
 
     private final Set<SomeObject> someObjects = new HashSet<SomeObject>();
 

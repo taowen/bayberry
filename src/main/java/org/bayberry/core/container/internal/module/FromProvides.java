@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.guice.internal.module;
+package org.bayberry.core.container.internal.module;
 
 import com.google.inject.Module;
 import com.google.inject.Provides;
@@ -18,6 +18,8 @@ import com.google.inject.Provides;
 import java.util.Set;
 import java.util.HashSet;
 import java.lang.reflect.Method;
+
+import org.bayberry.core.container.spi.ModuleAppender;
 
 /**
  * @author taowen

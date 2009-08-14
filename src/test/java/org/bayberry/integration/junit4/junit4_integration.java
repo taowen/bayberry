@@ -14,7 +14,7 @@ package org.bayberry.integration.junit4;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import org.bayberry.core.guice.api.ConfiguredWith;
+import org.bayberry.core.container.api.ConfiguredWith;
 import org.bayberry.integration.fest.FestAssertHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +22,8 @@ import org.junit.Test;
 /**
  * @author taowen
  */
-@ConfiguredWith(dependency_injection.Module.class)
-public class dependency_injection extends UsingBayberry {
+@ConfiguredWith(junit4_integration.Module.class)
+public class junit4_integration extends UsingBayberry {
 
     @Inject
     String injectedString;

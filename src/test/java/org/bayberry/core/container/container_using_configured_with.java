@@ -10,66 +10,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.guice;
+package org.bayberry.core.container;
 
 import com.google.inject.AbstractModule;
-import org.bayberry.core.guice.api.ConfiguredWith;
-import org.bayberry.core.guice.api.OverriddenBy;
+import com.google.inject.Injector;
+import org.bayberry.core.container.api.ConfiguredWith;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * @author taowen
  */
-
-public class module_indentity extends _core_module_feature {
+@ConfiguredWith({container_using_configured_with.Module1.class, container_using_configured_with.Module2.class})
+public class container_using_configured_with extends _core_module_feature {
 
     @Test
-    public void should_be_always_same_for_same_config() {
-        Assert.assertEquals(
-                moduleFactory.fromTestCase(new A2()),
-                moduleFactory.fromTestCase(new B2()));
-    }
-
-    @ConfiguredWith(Module1.class)
-    public static class A1 {
-
-    }
-
-    @ConfiguredWith(Module2.class)
-    @OverriddenBy(Module3.class)
-    public static class A2 extends A1 {
-
-    }
-
-    @ConfiguredWith(Module2.class)
-    public static class B1 {
-
-    }
-
-    @ConfiguredWith(Module1.class)
-    @OverriddenBy(Module3.class)
-    public static class B2 extends B1 {
-
+    public void should_be_used_to_create_modules() {
+        Injector injector = injectorFactory.fromTestCase(this);
+        Assert.assertEquals("Hello", injector.getInstance(String.class));
+        Assert.assertEquals("World", injector.getInstance(Object.class));
     }
 
     public static class Module1 extends AbstractModule {
 
         protected void configure() {
+            bind(String.class).toInstance("Hello");
         }
     }
 
     public static class Module2 extends AbstractModule {
 
         protected void configure() {
-
-        }
-    }
-
-    public static class Module3 extends AbstractModule {
-
-        protected void configure() {
-
+            bind(Object.class).toInstance("World");
         }
     }
 }

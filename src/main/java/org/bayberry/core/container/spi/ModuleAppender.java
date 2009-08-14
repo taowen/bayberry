@@ -10,23 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.guice;
+package org.bayberry.core.container.spi;
 
-import org.bayberry.core.guice.internal.InjectorFactory;
-import org.bayberry.core.guice.internal.ModuleFactory;
-import org.junit.Before;
+import com.google.inject.Module;
 
 /**
  * @author taowen
  */
-public abstract class _core_module_feature {
-
-    protected ModuleFactory moduleFactory;
-    protected InjectorFactory injectorFactory;
-
-    @Before
-    public void create_injector_factory() {
-        moduleFactory = Bayberry.MODULE_FACTORY;
-        injectorFactory = Bayberry.INJECTOR_FACTORY;
-    }
+public interface ModuleAppender {
+    
+    Module append(Module appendTo, Object testCase, Class<?> clazz);
 }

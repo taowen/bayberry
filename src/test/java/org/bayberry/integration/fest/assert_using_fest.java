@@ -10,14 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.guice.internal.module;
+package org.bayberry.integration.fest;
 
-import com.google.inject.Module;
+import org.bayberry.core.helper.api.Helper;
+import org.bayberry.integration.junit4.UsingBayberry;
+import org.junit.Test;
 
 /**
  * @author taowen
  */
-public interface ModuleAppender {
-    
-    Module append(Module appendTo, Object testCase, Class<?> clazz);
+public class assert_using_fest extends UsingBayberry {
+
+    @Helper
+    FestAssertHelper i;
+
+    @Test
+    public void assert_1_is_equal_to_1() {
+        i.assertThat(1).isEqualTo(1);
+    }
 }
