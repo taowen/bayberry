@@ -12,6 +12,8 @@
 */
 package org.bayberry.integration.fest;
 
+import org.bayberry.integration.fest.spi.*;
+
 /**
  * @author taowen
  */

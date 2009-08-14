@@ -13,9 +13,9 @@
 package org.bayberry.core;
 
 import com.google.inject.AbstractModule;
-import static org.bayberry.core.test.binder.ExtensionsBinder.extensionsIn;
+import static org.bayberry.core.test.ExtensionsBinder.extensionsIn;
 import org.bayberry.core.test.injection.InjectionExtension;
-import org.bayberry.core.test.scope.PerTest;
+import org.bayberry.core.test.scope.api.PerTest;
 import org.bayberry.core.test.scope.ScopeExtension;
 import org.bayberry.core.test.scope.internal.PerTestScope;
 import org.bayberry.core.fixture.FixtureModule;

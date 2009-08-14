@@ -15,6 +15,7 @@ package org.bayberry.core.test.scope;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import org.bayberry.integration.junit4.UsingBayberry;
+import org.bayberry.core.test.scope.api.PerTest;
 import org.junit.Assert;
 import org.junit.Test;
 

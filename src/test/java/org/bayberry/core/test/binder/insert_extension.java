@@ -14,7 +14,7 @@ package org.bayberry.core.test.binder;
 
 import com.google.inject.AbstractModule;
 import org.junit.Test;
-import static org.bayberry.core.test.binder.ExtensionsBinder.extensionsIn;
+import static org.bayberry.core.test.ExtensionsBinder.extensionsIn;
 
 /**
  * @author taowen

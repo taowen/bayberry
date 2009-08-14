@@ -13,7 +13,7 @@
 package org.bayberry.core.test.binder;
 
 import com.google.inject.AbstractModule;
-import static org.bayberry.core.test.binder.ExtensionsBinder.extensionsIn;
+import static org.bayberry.core.test.ExtensionsBinder.extensionsIn;
 import org.junit.Test;
 
 /**
