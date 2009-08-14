@@ -21,7 +21,10 @@ import org.bayberry.core.helper.api.UsingHelper;
 import org.bayberry.core.helper.internal.HelperFieldsCollector;
 
 /**
+ * Inject test helpers to classes implementing UsingHelper.
+ *
  * @author taowen
+ * @see org.bayberry.core.helper.api.UsingHelper
  */
 public class HelperModule extends AbstractModule {
 

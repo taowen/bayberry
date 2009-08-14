@@ -20,9 +20,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Specify modules used to override previously selected modules.
+ * Not recommanded to use through. Try to split modules into small
+ * parts and assemble the parts differently accordingly.
+ *
  * @author taowen
  * @see org.bayberry.core.container.api.ConfiguredWith
- * specify modules used to override previously selected modules which were specified by ConfiguredWith
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

@@ -14,10 +14,20 @@ package org.bayberry.core.test;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import org.bayberry.core.test.spi.TestExtension;
 import org.bayberry.core.test.internal.ExtensionsBinder;
+import org.bayberry.core.test.spi.TestExtension;
 
 /**
+ * Extend from this class to bind extensions in multiple
+ * modules and with order specified. Example usage:
+ * <pre>
+ * install(new TestExtensionModule(){
+ * &nbsp;&nbsp;protected void configure() {
+ * &nbsp;&nbsp;&nbsp;&nbsp;add(SomeExtension.class);
+ * &nbsp;&nbsp;}
+ * });
+ * </pre>
+ *
  * @author taowen
  */
 public abstract class TestExtensionModule implements Module {
@@ -46,7 +56,7 @@ public abstract class TestExtensionModule implements Module {
 
     protected class InsertClause {
 
-        private Class<? extends TestExtension> extensionClass;
+        private final Class<? extends TestExtension> extensionClass;
 
         public InsertClause(Class<? extends TestExtension> extensionClass) {
             this.extensionClass = extensionClass;

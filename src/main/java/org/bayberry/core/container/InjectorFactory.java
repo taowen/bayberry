@@ -29,7 +29,12 @@ import org.bayberry.core.container.spi.ModuleInstantiator;
 import java.util.concurrent.ConcurrentMap;
 
 /**
+ * Then entry point of using guice container in test
+ * environment. The behavior could be tweaked by
+ * using ModuleAppender SPI.
+ *
  * @author taowen
+ * @see org.bayberry.core.container.spi.ModuleAppender
  */
 public class InjectorFactory {
 

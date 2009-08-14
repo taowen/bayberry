@@ -21,7 +21,10 @@ import org.bayberry.core.fixture.api.UsingFixture;
 import org.bayberry.core.fixture.internal.FixtureFieldsCollector;
 
 /**
+ * Inject test fixtures to classes implementing UsingFixture.
+ *
  * @author taowen
+ * @see org.bayberry.core.fixture.api.UsingFixture
  */
 public class FixtureModule extends AbstractModule {
 

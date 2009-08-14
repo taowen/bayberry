@@ -15,9 +15,12 @@ package org.bayberry.core.container.spi;
 import com.google.inject.Module;
 
 /**
+ * Insert into the chain of the module appenders to
+ * get the module instance from different source.
+ *
  * @author taowen
  */
 public interface ModuleAppender {
-    
+
     Module append(Module appendTo, Object testCase, Class<?> clazz);
 }

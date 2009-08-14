@@ -20,9 +20,23 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Specify modules used to create injector. By default,
+ * the module class will be sinleton between tests. You
+ * can override the euqals and hashcode to change this
+ * behavior. But this way is kinda of hacky because the
+ * hashcode in java is supposed to be static. So, you
+ * should use @Provides in this case. For example:
+ * <pre>
+ * <b>@Provides</b>
+ * Module myModule() {
+ * &nbsp;&nbsp;return new AbstractModule() {
+ * &nbsp;&nbsp;...
+ * &nbsp;&nbsp; };
+ * }
+ * </pre>
+ *
  * @author taowen
  * @see org.bayberry.core.container.api.OverriddenBy
- * specify modules used to create injector
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

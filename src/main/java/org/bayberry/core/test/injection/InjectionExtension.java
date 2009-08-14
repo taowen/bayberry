@@ -19,6 +19,8 @@ import org.bayberry.core.test.spi.TestExtension;
 import java.lang.reflect.Method;
 
 /**
+ * Call injectMembers before every test starts.
+ *
  * @author taowen
  */
 public class InjectionExtension implements TestExtension {

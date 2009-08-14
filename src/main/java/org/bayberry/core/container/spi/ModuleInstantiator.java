@@ -22,6 +22,12 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 /**
+ * Used by module appender to create module instance
+ * from module class. For one class there is only
+ * one instance being created. But if the equals
+ * or hashcode of module being overriden, the behavior
+ * could change.
+ *
  * @author taowen
  */
 public class ModuleInstantiator {

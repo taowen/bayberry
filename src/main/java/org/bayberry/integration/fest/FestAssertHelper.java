@@ -15,6 +15,8 @@ package org.bayberry.integration.fest;
 import org.bayberry.integration.fest.spi.*;
 
 /**
+ * All FEST api ready for use
+ *
  * @author taowen
  */
 public interface FestAssertHelper extends

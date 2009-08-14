@@ -27,7 +27,6 @@ import java.util.Set;
 public class HelperFieldsCollector {
 
     private final Set<Field> helperFields = new HashSet<Field>();
-    private Provider<Injector> injectorProvider;
 
     public HelperFieldsCollector(Class clazz) {
         collectHelperFields(clazz);
@@ -51,7 +50,7 @@ public class HelperFieldsCollector {
         if (helperFields.isEmpty()) {
             return;
         }
-        injectorProvider = typeEncounter.getProvider(Injector.class);
+        Provider<Injector> injectorProvider = typeEncounter.getProvider(Injector.class);
         typeEncounter.register(new HelperFieldsInjector(helperFields, injectorProvider));
     }
 }

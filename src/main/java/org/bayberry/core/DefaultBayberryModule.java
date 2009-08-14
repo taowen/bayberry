@@ -22,6 +22,8 @@ import org.bayberry.core.test.scope.api.PerTest;
 import org.bayberry.core.test.scope.internal.PerTestScope;
 
 /**
+ * Pre-configured everything available inside core for you.
+ *
  * @author taowen
  */
 public class DefaultBayberryModule extends AbstractModule {

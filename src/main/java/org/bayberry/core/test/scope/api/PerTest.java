@@ -20,6 +20,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Mark the binding as per test scoped.
+ *
  * @author taowen
  */
 @Retention(RetentionPolicy.RUNTIME)

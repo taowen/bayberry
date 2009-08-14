@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.integration.junit4;
+package org.bayberry.integration.junit4.spi;
 
 import org.bayberry.core.container.InjectorFactory;
 import org.bayberry.core.test.spi.TestExtension;
@@ -22,7 +22,13 @@ import org.junit.runners.model.Statement;
 import java.lang.reflect.Method;
 
 /**
+ * Run with this runner to get test extension hooked into JUnit4
+ * test execution. Use me directly when you do not want to configure
+ * the container using default settings, otherwise please extend
+ * UsingBayberry instead.
+ *
  * @author taowen
+ * @see org.bayberry.integration.junit4.UsingBayberry
  */
 public class BayberryRunner extends BlockJUnit4ClassRunner {
 

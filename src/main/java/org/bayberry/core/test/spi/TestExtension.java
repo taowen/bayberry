@@ -15,6 +15,8 @@ package org.bayberry.core.test.spi;
 import java.lang.reflect.Method;
 
 /**
+ * Used to hook into the test execution process.
+ *
  * @author taowen
  */
 public interface TestExtension {

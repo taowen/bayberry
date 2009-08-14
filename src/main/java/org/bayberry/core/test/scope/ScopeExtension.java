@@ -12,12 +12,14 @@
 */
 package org.bayberry.core.test.scope;
 
-import org.bayberry.core.test.spi.TestExtension;
 import org.bayberry.core.test.scope.internal.PerTestScope;
+import org.bayberry.core.test.spi.TestExtension;
 
 import java.lang.reflect.Method;
 
 /**
+ * Clear per test scoped objects before and after tests.
+ *
  * @author taowen
  */
 public class ScopeExtension implements TestExtension {

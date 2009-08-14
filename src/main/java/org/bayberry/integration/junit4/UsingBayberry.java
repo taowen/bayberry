@@ -12,13 +12,16 @@
 */
 package org.bayberry.integration.junit4;
 
+import org.bayberry.core.DefaultBayberryModule;
 import org.bayberry.core.container.api.ConfiguredWith;
 import org.bayberry.core.fixture.api.UsingFixture;
-import org.bayberry.core.DefaultBayberryModule;
 import org.bayberry.core.helper.api.UsingHelper;
+import org.bayberry.integration.junit4.spi.BayberryRunner;
 import org.junit.runner.RunWith;
 
 /**
+ * Base class for JUnit4 tests who want to use Bayberry.
+ *
  * @author taowen
  */
 @RunWith(BayberryRunner.class)
