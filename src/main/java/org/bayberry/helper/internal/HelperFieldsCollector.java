@@ -39,7 +39,7 @@ public class HelperFieldsCollector {
         }
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
-            if (field.getType().isAnnotationPresent(Helper.class)) {
+            if (field.isAnnotationPresent(Helper.class)) {
                 helperFields.add(field);
             }
 

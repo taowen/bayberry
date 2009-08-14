@@ -23,6 +23,7 @@ import org.junit.Test;
  */
 public class multi_helpers extends UsingBayberry {
 
+    @Helper
     Helper12 helper;
 
     @Test
@@ -57,7 +58,6 @@ public class multi_helpers extends UsingBayberry {
         }
     }
 
-    @Helper
     public interface Helper12 extends Helper1, Helper2 {
     }
 }
