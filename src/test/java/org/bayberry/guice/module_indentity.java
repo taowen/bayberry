@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core;
+package org.bayberry.guice;
 
 import com.google.inject.AbstractModule;
-import org.bayberry.core.api.ConfiguredWith;
-import org.bayberry.core.api.OverriddenBy;
+import org.bayberry.guice.api.ConfiguredWith;
+import org.bayberry.guice.api.OverriddenBy;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -12,7 +12,7 @@
 */
 package org.bayberry.junit4;
 
-import org.bayberry.core.api.ConfiguredWith;
+import org.bayberry.guice.api.ConfiguredWith;
 import org.bayberry.fixture.api.UsingFixture;
 import org.bayberry.conf.DefaultBayberryModule;
 import org.bayberry.helper.api.UsingHelper;

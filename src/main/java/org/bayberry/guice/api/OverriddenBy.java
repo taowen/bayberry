@@ -10,23 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core;
+package org.bayberry.guice.api;
 
-import org.bayberry.core.internal.InjectorFactory;
-import org.bayberry.core.internal.ModuleFactory;
-import org.junit.Before;
+import com.google.inject.Module;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author taowen
+ * @see org.bayberry.guice.api.ConfiguredWith
+ * specify modules used to override previously selected modules which were specified by ConfiguredWith
  */
-public abstract class _core_module_feature {
-
-    protected ModuleFactory moduleFactory;
-    protected InjectorFactory injectorFactory;
-
-    @Before
-    public void create_injector_factory() {
-        moduleFactory = Bayberry.MODULE_FACTORY;
-        injectorFactory = Bayberry.INJECTOR_FACTORY;
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface OverriddenBy {
+    Class<? extends Module>[] value();
 }

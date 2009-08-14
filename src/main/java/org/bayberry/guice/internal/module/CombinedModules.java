@@ -10,29 +10,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.internal.module;
+package org.bayberry.guice.internal.module;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import com.google.inject.util.Modules;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author taowen
  */
-public class OverridenModule implements Module {
+public class CombinedModules implements Module {
 
-    private final int hashCode;
-    private final Module module;
+    private final Set<Module> modules = new HashSet<Module>();
 
-    public OverridenModule(Module beOverriden, Set<Module> overridenBy) {
-        hashCode = beOverriden.hashCode() * 31 + overridenBy.hashCode();
-        module = Modules.override(beOverriden).with(overridenBy);
+    public CombinedModules(Module module, Set<Module> modules) {
+        this.modules.add(module);
+        this.modules.addAll(modules);
     }
 
     public void configure(Binder binder) {
-        module.configure(binder);
+        for (Module module : modules) {
+            module.configure(binder);
+        }
     }
 
     @Override
@@ -40,15 +41,15 @@ public class OverridenModule implements Module {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        OverridenModule that = (OverridenModule) o;
+        CombinedModules that = (CombinedModules) o;
 
-        if (hashCode != that.hashCode) return false;
+        if (!modules.equals(that.modules)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return hashCode;
+        return modules.hashCode();
     }
 }

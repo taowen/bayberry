@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.internal;
+package org.bayberry.guice.internal;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -18,7 +18,7 @@ import com.google.inject.Module;
 import com.google.inject.internal.Function;
 import com.google.inject.internal.MapMaker;
 import com.google.inject.internal.Nullable;
-import org.bayberry.core.internal.ModuleFactory;
+import org.bayberry.guice.internal.ModuleFactory;
 
 import java.util.concurrent.ConcurrentMap;
 

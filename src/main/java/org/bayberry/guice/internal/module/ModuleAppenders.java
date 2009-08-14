@@ -10,27 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.internal.module;
+package org.bayberry.guice.internal.module;
 
 import com.google.inject.Module;
-import org.bayberry.core.api.OverriddenBy;
 
 /**
  * @author taowen
  */
-public class FromOverridenBy implements ModuleAppender {
+public class ModuleAppenders implements ModuleAppender {
 
-    private final ModuleInstantiator instantiator;
+    private final ModuleAppender[] appenders;
 
-    public FromOverridenBy(ModuleInstantiator instantiator) {
-        this.instantiator = instantiator;
+    public ModuleAppenders(ModuleAppender... appenders) {
+        this.appenders = appenders;
     }
 
     public Module append(Module appendTo, Object testCase, Class<?> clazz) {
-        OverriddenBy overriddenBy = clazz.getAnnotation(OverriddenBy.class);
-        if (overriddenBy != null) {
-            return new OverridenModule(appendTo, instantiator.newInstances(overriddenBy.value()));
+        Module appended = appendTo;
+        for (ModuleAppender appender : appenders) {
+            appended = appender.append(appended, testCase, clazz);
         }
-        return appendTo;
+        return appended;
     }
 }

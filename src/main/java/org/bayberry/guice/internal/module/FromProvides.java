@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.internal.module;
+package org.bayberry.guice.internal.module;
 
 import com.google.inject.Module;
 import com.google.inject.Provides;

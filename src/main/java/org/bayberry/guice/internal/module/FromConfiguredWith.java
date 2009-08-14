@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.internal.module;
+package org.bayberry.guice.internal.module;
 
 import com.google.inject.Module;
 
 import java.util.Set;
 import java.util.HashSet;
 
-import org.bayberry.core.api.ConfiguredWith;
+import org.bayberry.guice.api.ConfiguredWith;
 
 /**
  * @author taowen

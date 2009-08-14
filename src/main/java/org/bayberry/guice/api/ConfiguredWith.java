@@ -10,14 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.internal.module;
+package org.bayberry.guice.api;
 
 import com.google.inject.Module;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * @author taowen
+ * @see org.bayberry.guice.api.OverriddenBy
+ * specify modules used to create injector
  */
-public interface ModuleAppender {
-    
-    Module append(Module appendTo, Object testCase, Class<?> clazz);
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface ConfiguredWith {
+    Class<? extends Module>[] value();
 }

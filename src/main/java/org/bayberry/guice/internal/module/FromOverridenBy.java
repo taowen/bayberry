@@ -10,22 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.api;
+package org.bayberry.guice.internal.module;
 
 import com.google.inject.Module;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.bayberry.guice.api.OverriddenBy;
 
 /**
  * @author taowen
- * @see org.bayberry.core.api.ConfiguredWith
- * specify modules used to override previously selected modules which were specified by ConfiguredWith
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface OverriddenBy {
-    Class<? extends Module>[] value();
+public class FromOverridenBy implements ModuleAppender {
+
+    private final ModuleInstantiator instantiator;
+
+    public FromOverridenBy(ModuleInstantiator instantiator) {
+        this.instantiator = instantiator;
+    }
+
+    public Module append(Module appendTo, Object testCase, Class<?> clazz) {
+        OverriddenBy overriddenBy = clazz.getAnnotation(OverriddenBy.class);
+        if (overriddenBy != null) {
+            return new OverridenModule(appendTo, instantiator.newInstances(overriddenBy.value()));
+        }
+        return appendTo;
+    }
 }

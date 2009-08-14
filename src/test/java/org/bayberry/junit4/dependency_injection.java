@@ -14,7 +14,7 @@ package org.bayberry.junit4;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import org.bayberry.core.api.ConfiguredWith;
+import org.bayberry.guice.api.ConfiguredWith;
 import org.bayberry.fest.FestAssertHelper;
 import org.junit.Before;
 import org.junit.Test;

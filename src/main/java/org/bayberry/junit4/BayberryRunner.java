@@ -12,7 +12,7 @@
 */
 package org.bayberry.junit4;
 
-import org.bayberry.core.Bayberry;
+import org.bayberry.guice.Bayberry;
 import org.bayberry.extension.spi.TestExtension;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;

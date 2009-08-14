@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core;
+package org.bayberry.guice;
 
 import com.google.inject.Injector;
-import org.bayberry.core.internal.InjectorFactory;
-import org.bayberry.core.internal.ModuleFactory;
-import org.bayberry.core.internal.module.*;
+import org.bayberry.guice.internal.InjectorFactory;
+import org.bayberry.guice.internal.ModuleFactory;
+import org.bayberry.guice.internal.module.*;
 
 /**
  * @author taowen
