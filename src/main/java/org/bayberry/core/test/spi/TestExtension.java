@@ -10,20 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.scope;
+package org.bayberry.core.test.spi;
 
-import com.google.inject.ScopeAnnotation;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.reflect.Method;
 
 /**
  * @author taowen
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@ScopeAnnotation
-public @interface PerTest {
+public interface TestExtension {
+
+    void before(Object testCase, Method testMethod) throws Throwable;
+
+    void after(Object testCase, Method testMethod) throws Throwable;
 }

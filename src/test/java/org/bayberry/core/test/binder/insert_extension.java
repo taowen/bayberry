@@ -10,27 +10,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.binder;
+package org.bayberry.core.test.binder;
 
 import com.google.inject.AbstractModule;
-import static org.bayberry.core.extension.binder.ExtensionsBinder.extensionsIn;
 import org.junit.Test;
+import static org.bayberry.core.test.binder.ExtensionsBinder.extensionsIn;
 
 /**
  * @author taowen
  */
-public class append_extension extends _extension_binder_feature {
+public class insert_extension extends _extension_binder_feature {
+
     @Test
-    public void should_append_after_the_target() throws Throwable {
+    public void should_insert_before_the_target() throws Throwable {
         call(new Module());
-        assertCalledSequence(extension1, extension3);
+        assertCalledSequence(extension1, extension3, extension2);
     }
 
     public static class Module extends AbstractModule {
         protected void configure() {
             extensionsIn(binder())
-                    .add(Extension1.class)
-                    .insert(Extension3.class).after(Extension1.class);
+                    .add(Extension1.class, Extension2.class)
+                    .insert(Extension3.class).before(Extension2.class);
         }
     }
 }

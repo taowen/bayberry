@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.binder;
+package org.bayberry.core.test.binder;
 
 import com.google.inject.*;
 import com.google.inject.multibindings.Multibinder;
-import org.bayberry.core.extension.spi.TestExtension;
-import org.bayberry.core.extension.binder.internal.*;
-import static org.bayberry.core.extension.binder.internal.Head.Impl.headOf;
-import static org.bayberry.core.extension.binder.internal.Tail.Impl.tailOf;
+import org.bayberry.core.test.spi.TestExtension;
+import org.bayberry.core.test.binder.internal.*;
+import static org.bayberry.core.test.binder.internal.Head.Impl.headOf;
+import static org.bayberry.core.test.binder.internal.Tail.Impl.tailOf;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;

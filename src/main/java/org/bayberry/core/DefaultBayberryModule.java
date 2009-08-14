@@ -13,11 +13,11 @@
 package org.bayberry.core;
 
 import com.google.inject.AbstractModule;
-import static org.bayberry.core.extension.binder.ExtensionsBinder.extensionsIn;
-import org.bayberry.core.extension.injection.InjectionExtension;
-import org.bayberry.core.extension.scope.PerTest;
-import org.bayberry.core.extension.scope.ScopeExtension;
-import org.bayberry.core.extension.scope.internal.PerTestScope;
+import static org.bayberry.core.test.binder.ExtensionsBinder.extensionsIn;
+import org.bayberry.core.test.injection.InjectionExtension;
+import org.bayberry.core.test.scope.PerTest;
+import org.bayberry.core.test.scope.ScopeExtension;
+import org.bayberry.core.test.scope.internal.PerTestScope;
 import org.bayberry.core.fixture.FixtureModule;
 import org.bayberry.core.helper.HelperModule;
 

@@ -10,29 +10,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.binder.internal;
+package org.bayberry.core.test.binder.internal;
 
 import com.google.inject.Provider;
-import org.bayberry.core.extension.spi.TestExtension;
+import org.bayberry.core.test.spi.TestExtension;
 
 import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * @author taowen
  */
-public class ProvidedExtension implements TestExtension {
+public class ProvidedExtensions implements TestExtension {
 
-    private final Provider<? extends TestExtension> extensionProvider;
+    private final Provider<Set<TestExtension>> extensionsProvider;
+    private TestExtension extension;
 
-    public ProvidedExtension(Provider<? extends TestExtension> extensionProvider) {
-        this.extensionProvider = extensionProvider;
+    public ProvidedExtensions(Provider<Set<TestExtension>> extensionsProvider) {
+        this.extensionsProvider = extensionsProvider;
     }
 
     public void before(Object testCase, Method testMethod) throws Throwable {
-        extensionProvider.get().before(testCase, testMethod);
+        getExtension().before(testCase, testMethod);
     }
 
     public void after(Object testCase, Method testMethod) throws Throwable {
-        extensionProvider.get().after(testCase, testMethod);
+        getExtension().after(testCase, testMethod);
+    }
+
+    private TestExtension getExtension() {
+        if (extension == null) {
+            extension = NestedExtensions.of(extensionsProvider.get());
+        }
+        return extension;
     }
 }

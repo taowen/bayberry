@@ -10,25 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.binder.internal;
+package org.bayberry.core.test.binder.internal;
 
-import com.google.inject.BindingAnnotation;
-import org.bayberry.core.extension.spi.TestExtension;
+import org.bayberry.core.test.spi.TestExtension;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import com.google.inject.BindingAnnotation;
 
 /**
  * @author taowen
  */
 @Retention(RetentionPolicy.RUNTIME)
 @BindingAnnotation
-public @interface Head {
+public @interface Tail {
 
     public abstract Class<? extends TestExtension> value();
 
-    static class Impl implements Head {
+    static class Impl implements Tail {
 
         private final Class<? extends TestExtension> value;
 
@@ -41,7 +42,7 @@ public @interface Head {
         }
 
         public Class<? extends Annotation> annotationType() {
-            return Head.class;
+            return Tail.class;
         }
 
         @Override
@@ -61,9 +62,8 @@ public @interface Head {
             return value.hashCode();
         }
 
-        public static Head headOf(Class<? extends TestExtension> value) {
+        public static Tail tailOf(Class<? extends TestExtension> value) {
             return new Impl(value);
         }
     }
-
 }

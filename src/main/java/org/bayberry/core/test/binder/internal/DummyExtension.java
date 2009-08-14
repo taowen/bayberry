@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.binder.internal;
+package org.bayberry.core.test.binder.internal;
 
-import org.bayberry.core.extension.spi.TestExtension;
+import org.bayberry.core.test.spi.TestExtension;
 
 import java.lang.reflect.Method;
 

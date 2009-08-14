@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.scope.internal;
+package org.bayberry.core.test.scope.internal;
 
 import com.google.inject.Key;
 import com.google.inject.Provider;

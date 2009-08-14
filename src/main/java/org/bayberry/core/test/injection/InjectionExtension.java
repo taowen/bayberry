@@ -10,16 +10,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.spi;
+package org.bayberry.core.test.injection;
+
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import org.bayberry.core.test.spi.TestExtension;
 
 import java.lang.reflect.Method;
 
 /**
  * @author taowen
  */
-public interface TestExtension {
+public class InjectionExtension implements TestExtension {
 
-    void before(Object testCase, Method testMethod) throws Throwable;
+    private final Injector injector;
 
-    void after(Object testCase, Method testMethod) throws Throwable;
+    @Inject
+    public InjectionExtension(Injector injector) {
+        this.injector = injector;
+    }
+
+    public void before(Object testCase, Method testMethod) throws Throwable {
+        injector.injectMembers(testCase);
+    }
+
+    public void after(Object testCase, Method testMethod) throws Throwable {
+    }
 }

@@ -10,23 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.scope;
+package org.bayberry.core.test.binder.internal;
 
-import org.bayberry.core.extension.spi.TestExtension;
-import org.bayberry.core.extension.scope.internal.PerTestScope;
+import com.google.inject.Provider;
+import org.bayberry.core.test.spi.TestExtension;
 
 import java.lang.reflect.Method;
 
 /**
  * @author taowen
  */
-public class ScopeExtension implements TestExtension {
+public class ProvidedExtension implements TestExtension {
+
+    private final Provider<? extends TestExtension> extensionProvider;
+
+    public ProvidedExtension(Provider<? extends TestExtension> extensionProvider) {
+        this.extensionProvider = extensionProvider;
+    }
 
     public void before(Object testCase, Method testMethod) throws Throwable {
-        PerTestScope.INSTANCE.clear();
+        extensionProvider.get().before(testCase, testMethod);
     }
 
     public void after(Object testCase, Method testMethod) throws Throwable {
-        PerTestScope.INSTANCE.clear();
+        extensionProvider.get().after(testCase, testMethod);
     }
 }

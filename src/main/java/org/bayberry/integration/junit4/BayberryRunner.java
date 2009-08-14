@@ -13,7 +13,7 @@
 package org.bayberry.integration.junit4;
 
 import org.bayberry.core.guice.Bayberry;
-import org.bayberry.core.extension.spi.TestExtension;
+import org.bayberry.core.test.spi.TestExtension;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;

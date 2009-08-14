@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.binder;
+package org.bayberry.core.test.binder;
 
 import com.google.inject.AbstractModule;
-import static org.bayberry.core.extension.binder.ExtensionsBinder.extensionsIn;
+import static org.bayberry.core.test.binder.ExtensionsBinder.extensionsIn;
 import org.junit.Test;
 
 /**
