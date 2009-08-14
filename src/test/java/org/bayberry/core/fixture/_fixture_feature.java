@@ -17,5 +17,5 @@ import org.bayberry.integration.junit4.UsingBayberry;
 /**
  * @author taowen
  */
-public abstract class _fixture_module_feature extends UsingBayberry {
+public abstract class _fixture_feature extends UsingBayberry {
 }

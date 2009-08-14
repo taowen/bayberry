@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.binder;
+package org.bayberry.core.extension;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * @author taowen
  */
-public class _extension_binder_feature {
+public class _extension_feature {
 
     protected ArrayList<TestExtension> called;
     protected Extension1 extension1;

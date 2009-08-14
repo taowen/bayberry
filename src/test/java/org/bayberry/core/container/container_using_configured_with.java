@@ -22,7 +22,7 @@ import org.junit.Test;
  * @author taowen
  */
 @ConfiguredWith({container_using_configured_with.Module1.class, container_using_configured_with.Module2.class})
-public class container_using_configured_with extends _core_module_feature {
+public class container_using_configured_with extends _container_feature {
 
     @Test
     public void should_be_used_to_create_modules() {

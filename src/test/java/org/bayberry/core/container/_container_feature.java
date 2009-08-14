@@ -18,7 +18,7 @@ import org.junit.Before;
 /**
  * @author taowen
  */
-public abstract class _core_module_feature {
+public abstract class _container_feature {
 
     protected InjectorFactory injectorFactory;
 

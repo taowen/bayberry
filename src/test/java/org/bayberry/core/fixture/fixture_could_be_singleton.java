@@ -21,7 +21,7 @@ import com.google.inject.Singleton;
 /**
  * @author taowen
  */
-public class fixture_could_be_singleton extends _fixture_module_feature {
+public class fixture_could_be_singleton extends _fixture_feature {
 
     @Fixture(SomeFixtureProvider.class)
     Object obj1;

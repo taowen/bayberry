@@ -21,7 +21,7 @@ import org.junit.Test;
 /**
  * @author taowen
  */
-public class container_inheritance extends _core_module_feature {
+public class container_inheritance extends _container_feature {
 
     @Test
     public void should_also_be_used_to_create_module() {

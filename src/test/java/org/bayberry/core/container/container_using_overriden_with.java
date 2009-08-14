@@ -22,7 +22,7 @@ import org.junit.Test;
 /**
  * @author taowen
  */
-public class container_using_overriden_with extends _core_module_feature {
+public class container_using_overriden_with extends _container_feature {
 
     @Test
     public void should_override_my_and_super_configured_with_module() {

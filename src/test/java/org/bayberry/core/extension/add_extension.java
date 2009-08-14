@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.extension.binder;
+package org.bayberry.core.extension;
 
 import com.google.inject.AbstractModule;
 import org.bayberry.core.extension.TestExtensionModule;
@@ -19,7 +19,7 @@ import org.junit.Test;
 /**
  * @author taowen
  */
-public class add_extension extends _extension_binder_feature {
+public class add_extension extends _extension_feature {
 
     @Test
     public void should_in_arguments_order() throws Throwable {
