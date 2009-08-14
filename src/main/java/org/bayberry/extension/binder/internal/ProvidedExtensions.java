@@ -13,7 +13,7 @@
 package org.bayberry.extension.binder.internal;
 
 import com.google.inject.Provider;
-import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.spi.TestExtension;
 
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -21,12 +21,12 @@ import java.util.Set;
 /**
  * @author taowen
  */
-public class ProvidedExtensions implements Extension {
+public class ProvidedExtensions implements TestExtension {
 
-    private final Provider<Set<Extension>> extensionsProvider;
-    private Extension extension;
+    private final Provider<Set<TestExtension>> extensionsProvider;
+    private TestExtension extension;
 
-    public ProvidedExtensions(Provider<Set<Extension>> extensionsProvider) {
+    public ProvidedExtensions(Provider<Set<TestExtension>> extensionsProvider) {
         this.extensionsProvider = extensionsProvider;
     }
 
@@ -38,7 +38,7 @@ public class ProvidedExtensions implements Extension {
         getExtension().after(testCase, testMethod);
     }
 
-    private Extension getExtension() {
+    private TestExtension getExtension() {
         if (extension == null) {
             extension = NestedExtensions.of(extensionsProvider.get());
         }

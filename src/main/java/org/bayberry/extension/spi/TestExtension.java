@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.spi;
+package org.bayberry.extension.spi;
 
 import java.lang.reflect.Method;
 
 /**
  * @author taowen
  */
-public interface Extension {
+public interface TestExtension {
 
     void before(Object testCase, Method testMethod) throws Throwable;
 

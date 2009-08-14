@@ -13,7 +13,7 @@
 package org.bayberry.extension.binder.internal;
 
 import com.google.inject.BindingAnnotation;
-import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.spi.TestExtension;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
@@ -26,17 +26,17 @@ import java.lang.annotation.RetentionPolicy;
 @BindingAnnotation
 public @interface Head {
 
-    public abstract Class<? extends Extension> value();
+    public abstract Class<? extends TestExtension> value();
 
     static class Impl implements Head {
 
-        private final Class<? extends Extension> value;
+        private final Class<? extends TestExtension> value;
 
-        public Impl(Class<? extends Extension> value) {
+        public Impl(Class<? extends TestExtension> value) {
             this.value = value;
         }
 
-        public Class<? extends Extension> value() {
+        public Class<? extends TestExtension> value() {
             return value;
         }
 
@@ -61,7 +61,7 @@ public @interface Head {
             return value.hashCode();
         }
 
-        public static Head headOf(Class<? extends Extension> value) {
+        public static Head headOf(Class<? extends TestExtension> value) {
             return new Impl(value);
         }
     }

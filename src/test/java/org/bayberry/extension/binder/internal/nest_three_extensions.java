@@ -12,7 +12,7 @@
 */
 package org.bayberry.extension.binder.internal;
 
-import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.spi.TestExtension;
 import org.bayberry.extension.binder.internal.NestedExtensions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class nest_three_extensions {
         InvokedAtAwareExtension extension1 = new InvokedAtAwareExtension();
         InvokedAtAwareExtension extension2 = new InvokedAtAwareExtension();
         InvokedAtAwareExtension extension3 = new InvokedAtAwareExtension();
-        Extension extension = NestedExtensions.of(extension1, extension2, extension3);
+        TestExtension extension = NestedExtensions.of(extension1, extension2, extension3);
         extension.before(null, null);
         extension.after(null, null);
         Assert.assertTrue(extension1.beforeInvokedAt < extension2.beforeInvokedAt);
@@ -38,7 +38,7 @@ public class nest_three_extensions {
         Assert.assertTrue(extension2.afterInvokedAt > extension3.afterInvokedAt);
     }
 
-    private static class InvokedAtAwareExtension implements Extension {
+    private static class InvokedAtAwareExtension implements TestExtension {
 
         public Long beforeInvokedAt;
         public Long afterInvokedAt;

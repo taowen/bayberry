@@ -12,7 +12,7 @@
 */
 package org.bayberry.extension.binder.internal;
 
-import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.spi.TestExtension;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -20,12 +20,12 @@ import java.util.Arrays;
 /**
  * @author taowen
  */
-public class NestedExtensions implements Extension {
+public class NestedExtensions implements TestExtension {
 
-    private final Extension first;
-    private final Extension last;
+    private final TestExtension first;
+    private final TestExtension last;
 
-    public NestedExtensions(Extension first, Extension last) {
+    public NestedExtensions(TestExtension first, TestExtension last) {
         this.first = first;
         this.last = last;
     }
@@ -46,13 +46,13 @@ public class NestedExtensions implements Extension {
         }
     }
 
-    public static Extension of(Extension... extensions) {
+    public static TestExtension of(TestExtension... extensions) {
         return of(Arrays.asList(extensions));
     }
 
-    public static Extension of(Iterable<Extension> extensions) {
-        Extension nested = new DummyExtension();
-        for (Extension extension : extensions) {
+    public static TestExtension of(Iterable<TestExtension> extensions) {
+        TestExtension nested = new DummyExtension();
+        for (TestExtension extension : extensions) {
             nested = new NestedExtensions(nested, extension);
         }
         return nested;

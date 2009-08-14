@@ -12,7 +12,7 @@
 */
 package org.bayberry.extension.binder.internal;
 
-import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.spi.TestExtension;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
@@ -27,17 +27,17 @@ import com.google.inject.BindingAnnotation;
 @BindingAnnotation
 public @interface Tail {
 
-    public abstract Class<? extends Extension> value();
+    public abstract Class<? extends TestExtension> value();
 
     static class Impl implements Tail {
 
-        private final Class<? extends Extension> value;
+        private final Class<? extends TestExtension> value;
 
-        public Impl(Class<? extends Extension> value) {
+        public Impl(Class<? extends TestExtension> value) {
             this.value = value;
         }
 
-        public Class<? extends Extension> value() {
+        public Class<? extends TestExtension> value() {
             return value;
         }
 
@@ -62,7 +62,7 @@ public @interface Tail {
             return value.hashCode();
         }
 
-        public static Tail tailOf(Class<? extends Extension> value) {
+        public static Tail tailOf(Class<? extends TestExtension> value) {
             return new Impl(value);
         }
     }

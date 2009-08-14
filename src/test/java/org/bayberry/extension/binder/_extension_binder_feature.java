@@ -14,9 +14,8 @@ package org.bayberry.extension.binder;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 import com.google.inject.Guice;
-import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.spi.TestExtension;
 import org.junit.Before;
 import org.junit.Assert;
 
@@ -29,24 +28,24 @@ import java.util.List;
  */
 public class _extension_binder_feature {
 
-    protected ArrayList<Extension> called;
+    protected ArrayList<TestExtension> called;
     protected Extension1 extension1;
     protected Extension2 extension2;
     protected Extension3 extension3;
 
     @Before
     public void create_extensions() {
-        called = new ArrayList<Extension>();
+        called = new ArrayList<TestExtension>();
         extension1 = new Extension1(called);
         extension2 = new Extension2(called);
         extension3 = new Extension3(called);
     }
 
 
-    public static class StubExtension implements Extension {
-        private final List<Extension> called;
+    public static class StubExtension implements TestExtension {
+        private final List<TestExtension> called;
 
-        public StubExtension(List<Extension> called) {
+        public StubExtension(List<TestExtension> called) {
             this.called = called;
         }
 
@@ -61,7 +60,7 @@ public class _extension_binder_feature {
 
     public static class Extension1 extends StubExtension {
 
-        public Extension1(List<Extension> called) {
+        public Extension1(List<TestExtension> called) {
             super(called);
         }
 
@@ -73,7 +72,7 @@ public class _extension_binder_feature {
 
     public static class Extension2 extends StubExtension {
 
-        public Extension2(List<Extension> called) {
+        public Extension2(List<TestExtension> called) {
             super(called);
         }
 
@@ -85,7 +84,7 @@ public class _extension_binder_feature {
 
     public static class Extension3 extends StubExtension {
 
-        public Extension3(List<Extension> called) {
+        public Extension3(List<TestExtension> called) {
             super(called);
         }
 
@@ -96,10 +95,10 @@ public class _extension_binder_feature {
     }
 
     protected void call(Module module) throws Throwable {
-        Guice.createInjector(module, extensionsModule()).getInstance(Extension.class).before(null, null);
+        Guice.createInjector(module, extensionsModule()).getInstance(TestExtension.class).before(null, null);
     }
 
-    protected void assertCalledSequence(Extension... extensions) {
+    protected void assertCalledSequence(TestExtension... extensions) {
         Assert.assertArrayEquals(extensions, called.toArray());
     }
 

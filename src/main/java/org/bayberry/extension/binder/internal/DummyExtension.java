@@ -12,14 +12,14 @@
 */
 package org.bayberry.extension.binder.internal;
 
-import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.spi.TestExtension;
 
 import java.lang.reflect.Method;
 
 /**
  * @author taowen
  */
-public class DummyExtension implements Extension {
+public class DummyExtension implements TestExtension {
 
     public void before(Object testCase, Method testMethod) throws Throwable {
     }

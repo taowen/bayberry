@@ -14,14 +14,14 @@ package org.bayberry.extension.injection;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.spi.TestExtension;
 
 import java.lang.reflect.Method;
 
 /**
  * @author taowen
  */
-public class InjectionExtension implements Extension {
+public class InjectionExtension implements TestExtension {
 
     private final Injector injector;
 

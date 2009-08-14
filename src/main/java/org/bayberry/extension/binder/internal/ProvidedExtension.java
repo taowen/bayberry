@@ -13,18 +13,18 @@
 package org.bayberry.extension.binder.internal;
 
 import com.google.inject.Provider;
-import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.spi.TestExtension;
 
 import java.lang.reflect.Method;
 
 /**
  * @author taowen
  */
-public class ProvidedExtension implements Extension {
+public class ProvidedExtension implements TestExtension {
 
-    private final Provider<? extends Extension> extensionProvider;
+    private final Provider<? extends TestExtension> extensionProvider;
 
-    public ProvidedExtension(Provider<? extends Extension> extensionProvider) {
+    public ProvidedExtension(Provider<? extends TestExtension> extensionProvider) {
         this.extensionProvider = extensionProvider;
     }
 

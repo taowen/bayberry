@@ -12,7 +12,7 @@
 */
 package org.bayberry.extension.scope;
 
-import org.bayberry.core.spi.Extension;
+import org.bayberry.extension.spi.TestExtension;
 import org.bayberry.extension.scope.internal.PerTestScope;
 
 import java.lang.reflect.Method;
@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 /**
  * @author taowen
  */
-public class ScopeExtension implements Extension {
+public class ScopeExtension implements TestExtension {
 
     public void before(Object testCase, Method testMethod) throws Throwable {
         PerTestScope.INSTANCE.clear();
