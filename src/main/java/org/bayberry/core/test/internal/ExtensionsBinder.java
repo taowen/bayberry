@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 */
-package org.bayberry.core.test;
+package org.bayberry.core.test.internal;
 
 import com.google.inject.*;
 import com.google.inject.multibindings.Multibinder;
-import org.bayberry.core.test.spi.TestExtension;
 import org.bayberry.core.test.internal.*;
 import static org.bayberry.core.test.internal.Head.Impl.headOf;
 import static org.bayberry.core.test.internal.Tail.Impl.tailOf;
+import org.bayberry.core.test.spi.TestExtension;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
@@ -41,29 +41,33 @@ public class ExtensionsBinder {
         binder.install(MODULE);
     }
 
-    public ExtensionsBinder add(Class<? extends TestExtension> extensionClass) {
+    public void add(Class<? extends TestExtension> extensionClass) {
         Multibinder.newSetBinder(binder, TestExtension.class)
                 .addBinding()
                 .toInstance(wrapExtension(extensionClass));
-        return this;
     }
 
-    public ExtensionsBinder add(Class<? extends TestExtension> firstExtensionClass,
-                                Class<? extends TestExtension>... extensionClasses) {
+    public void add(Class<? extends TestExtension> firstExtensionClass,
+                    Class<? extends TestExtension>... extensionClasses) {
         add(firstExtensionClass);
         Class<? extends TestExtension> lastOne = firstExtensionClass;
         for (Class<? extends TestExtension> extensionClass : extensionClasses) {
-            insert(extensionClass).after(lastOne);
+            append(lastOne, extensionClass);
         }
-        return this;
     }
 
-    public InsertClause insert(Class<? extends TestExtension> extensionClass) {
-        return new InsertClause(extensionClass);
+    public void append(Class<? extends TestExtension> afterExtensionClass,
+                       Class<? extends TestExtension> extensionClass) {
+        Multibinder.newSetBinder(binder, TestExtension.class, tailOf(afterExtensionClass))
+                .addBinding()
+                .toInstance(wrapExtension(extensionClass));
     }
 
-    public static ExtensionsBinder extensionsIn(Binder binder) {
-        return new ExtensionsBinder(binder);
+    public void insert(Class<? extends TestExtension> extensionClass,
+                       Class<? extends TestExtension> beforeExtensionClass) {
+        Multibinder.newSetBinder(binder, TestExtension.class, headOf(beforeExtensionClass))
+                .addBinding()
+                .toInstance(wrapExtension(extensionClass));
     }
 
     private TestExtension wrapExtension(Class<? extends TestExtension> extensionClass) {
@@ -80,28 +84,5 @@ public class ExtensionsBinder {
     private ProvidedExtensions getExtensions(Annotation annotation) {
         return new ProvidedExtensions(binder.getProvider(Key.get(new TypeLiteral<Set<TestExtension>>() {
         }, annotation)));
-    }
-
-    public class InsertClause {
-
-        private final Class<? extends TestExtension> extensionClass;
-
-        public InsertClause(Class<? extends TestExtension> extensionClass) {
-            this.extensionClass = extensionClass;
-        }
-
-        public ExtensionsBinder before(Class<? extends TestExtension> beforeExtensionClass) {
-            Multibinder.newSetBinder(binder, TestExtension.class, headOf(beforeExtensionClass))
-                    .addBinding()
-                    .toInstance(wrapExtension(extensionClass));
-            return ExtensionsBinder.this;
-        }
-
-        public ExtensionsBinder after(Class<? extends TestExtension> afterExtensionClass) {
-            Multibinder.newSetBinder(binder, TestExtension.class, tailOf(afterExtensionClass))
-                    .addBinding()
-                    .toInstance(wrapExtension(extensionClass));
-            return ExtensionsBinder.this;
-        }
     }
 }

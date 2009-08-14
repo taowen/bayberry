@@ -15,6 +15,7 @@ package org.bayberry.integration.junit4;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import org.bayberry.core.container.api.ConfiguredWith;
+import org.bayberry.core.helper.api.Helper;
 import org.bayberry.integration.fest.FestAssertHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class junit4_integration extends UsingBayberry {
     @Inject
     String injectedString;
 
-    @Inject
+    @Helper
     FestAssertHelper i;
 
     private String injectedBeforeBefore;

@@ -13,13 +13,13 @@
 package org.bayberry.core;
 
 import com.google.inject.AbstractModule;
-import static org.bayberry.core.test.ExtensionsBinder.extensionsIn;
-import org.bayberry.core.test.injection.InjectionExtension;
-import org.bayberry.core.test.scope.api.PerTest;
-import org.bayberry.core.test.scope.ScopeExtension;
-import org.bayberry.core.test.scope.internal.PerTestScope;
 import org.bayberry.core.fixture.FixtureModule;
 import org.bayberry.core.helper.HelperModule;
+import org.bayberry.core.test.TestExtensionModule;
+import org.bayberry.core.test.injection.InjectionExtension;
+import org.bayberry.core.test.scope.ScopeExtension;
+import org.bayberry.core.test.scope.api.PerTest;
+import org.bayberry.core.test.scope.internal.PerTestScope;
 
 /**
  * @author taowen
@@ -27,9 +27,13 @@ import org.bayberry.core.helper.HelperModule;
 public class DefaultBayberryModule extends AbstractModule {
 
     protected void configure() {
-        extensionsIn(binder()).add(ScopeExtension.class, InjectionExtension.class);
         bindScope(PerTest.class, PerTestScope.INSTANCE);
         install(new FixtureModule());
         install(new HelperModule());
+        install(new TestExtensionModule() {
+            protected void configure() {
+                add(ScopeExtension.class, InjectionExtension.class);
+            }
+        });
     }
 }
