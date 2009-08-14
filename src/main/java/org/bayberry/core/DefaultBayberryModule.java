@@ -15,11 +15,11 @@ package org.bayberry.core;
 import com.google.inject.AbstractModule;
 import org.bayberry.core.fixture.FixtureModule;
 import org.bayberry.core.helper.HelperModule;
-import org.bayberry.core.test.TestExtensionModule;
-import org.bayberry.core.test.injection.InjectionExtension;
-import org.bayberry.core.test.scope.ScopeExtension;
-import org.bayberry.core.test.scope.api.PerTest;
-import org.bayberry.core.test.scope.internal.PerTestScope;
+import org.bayberry.core.extension.TestExtensionModule;
+import org.bayberry.core.extension.injection.InjectionExtension;
+import org.bayberry.core.extension.scope.ScopeExtension;
+import org.bayberry.core.extension.scope.api.PerTest;
+import org.bayberry.core.extension.scope.internal.PerTestScope;
 
 /**
  * Pre-configured everything available inside core for you.
